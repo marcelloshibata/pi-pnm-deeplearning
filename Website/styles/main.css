@@ -1,1 +1,13 @@
+/* BANNER PRINCIPAL */
+
+@import url("hero.css");
+
 /* CONTEÚDO PRINCIPAL */
+
+body {
+  margin: 0%;
+  min-height: auto;
+  min-width: auto;
+}
+
+@media (max-width: 768px) {}
