@@ -1,0 +1,664 @@
+/*
+
+- Uso do ".CLASS"
+Pode ser usada várias vezes
+Serve para reutilizar estilo
+Mais usada no dia a dia.
+
+- Uso do "#ID"
+Deve ser único na página
+Identifica um elemento específico.
+
+*/
+
+/* 
+At-rules (regras-@) = instrução especial do CSS que começa com @ | Elas controlam comportamentos do CSS, não apenas estilo direto.
+! @algo = regra especial do CSS !
+
+Abaixo o comando está dizendo pra o arquivo atual "styles.css" importar os arquivos externos entre parênteses.
+
+@import url("header.css");
+@import url("main.css");
+@import url("footer.css");
+
+*/
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0px;
+  font-family: "Kulim Park", sans-serif;
+}
+
+p {
+  text-align: center;
+  margin: 5px;
+}
+
+/* ! HEADER ! CABEÇALHO !*/
+/* NAVBAR */
+.navMenu {
+  display: flex; /* coloca tudo em linha */
+  justify-content: space-between; /* logo esquerda, menu direita */
+  align-items: center; /* alinha vertical */
+  padding: 20px 60px;
+  border-bottom: 0.5px solid #9c3cfb;
+
+  background: linear-gradient(
+    90deg,
+    /* ângulo horizontal */ #140042 0%,
+    /* início */ #140128 50%,
+    /* meio (roxo destaque) */ #021124 100% /* fim (azul) */
+  );
+}
+
+/* LOGO / Imagem DeepVision */
+.logo {
+  color: #b870ff;
+  font-size: 24px;
+  height: 40px; /* controla o tamanho da logo */
+}
+
+/* .menu é a classe da tag "ul" que está dentro das tags "header" e "nav" */
+/* MENU / Inicio - Sobre - Projetos - Equipe - Contato*/
+.menu {
+  display: flex; /* deixa links lado a lado */
+  gap: 30px; /* espaço entre eles (links) */
+  list-style: none; /* remove bolinhas de tópico da frente do "li"/links */
+}
+
+/* LINKS */
+.menu a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+/* Dentro do :hover as ações só acontecem ao passar o mouse por cima */
+.menu a:hover {
+  color: #9c3cfb;
+  text-decoration: underline;
+  text-underline-offset: 16px;
+}
+
+/* MAIN SECTION "HEADER" */
+
+#format {
+  color: rgb(85, 5, 214);
+}
+
+.downHeader {
+  color: azure;
+  background-image: url("../imgs/backgroundHeader.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 100px 90px;
+  font-size: 28px;
+  width: 100%;
+}
+
+.header-left {
+  max-width: 980px;
+  text-align: left;
+}
+
+.header-left h1,
+.header-left p {
+  text-align: left;
+}
+
+.header-left p {
+  margin-bottom: 28px;
+}
+
+.botao {
+  display: inline-flex;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.btn {
+  min-width: 170px;
+  height: 50px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #32065d 0%, #1a0247 100%);
+  color: white;
+  padding: 0 22px;
+  border-radius: 30px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+  border: 1px solid rgba(156, 60, 251, 0.35);
+}
+
+.btn {
+  min-width: 170px;
+  height: 50px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #32065d 0%, #1a0247 100%);
+  color: white;
+  padding: 0 22px;
+  border-radius: 30px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+  border: 1px solid rgba(156, 60, 251, 0.35);
+}
+
+.btn:hover {
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(13, 5, 39, 0.35);
+}
+
+.btnCadastro {
+  min-width: 150px;
+  height: 44px;
+  box-sizing: border-box;
+  text-decoration: none;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 2px solid #9c3cfb;
+  border-radius: 28px;
+  color: #9c3cfb;
+  background: linear-gradient(90deg, #140128, #140042, #32065d);
+  cursor: pointer;
+}
+
+.btnCadastro:hover {
+  background: #9c3cfb;
+  color: white;
+  border-color: #9c3cfb;
+}
+
+/* AGRUPA LOGIN + CADASTRO */
+.login-cadastro-grupo {
+  display: flex; /* coloca lado a lado */
+  gap: 10px; /* espaço entre os botões */
+}
+
+/*  */
+
+/* MODAL é uma janela temporária (Ex: Login e Cadatro) que impede o usuário de interagir com a página enquanto não tomar uma ação*/
+/* FUNDO ESCURO (overlay) */
+.modal {
+  display: none; /* começa escondido */
+}
+
+#cadastro:target {
+  display: block;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.75); /* escurece fundo */
+  backdrop-filter: blur(5px); /* leve blur */
+}
+
+/* Possível inserção de Java Script futuramente. */
+/* CAIXA DO MODAL */
+.cad {
+  margin: 10px;
+  width: 90%;
+  font-family: "Kulim Park", sans-serif;
+}
+
+.modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 320px;
+  padding: 25px;
+
+  /* Fundo da janela de CADASTRO */
+  background: linear-gradient(145deg, #140042, #2d013e);
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* TÍTULO */
+.modal-content h2 {
+  margin: 0;
+  text-align: center;
+  color: white;
+}
+
+/* INPUTS */
+.modal-content input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  background: rgba(165, 0, 0, 0.05);
+  color: white;
+
+  outline: none;
+  transition: 0.2s;
+}
+
+/* FOCO */
+.modal-content input:focus {
+  border-color: #9c3cfb;
+  box-shadow: 0 0 8px rgba(156, 60, 251, 0.5);
+}
+
+/* BOTÃO */
+.modal-content .btn {
+  width: 100%; /* ocupa toda largura */
+  height: 45px;
+  margin-top: 20px;
+}
+
+/* BOTÃO FECHAR */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+
+  font-size: 22px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+/* HOVER FECHAR */
+.close:hover {
+  color: #9c3cfb;
+}
+
+.obs {
+  margin: 10px;
+  width: 90%;
+  border-radius: 5px;
+  background: #24003d;
+  resize: none;
+  border: 1px solid #4b3364;
+  /* width: %; */
+  transition: 0.1s;
+  outline: 0;
+  color: white;
+  font-family: "Kulim Park", sans-serif;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.obs:focus {
+  border-color: #9c3cfb;
+  box-shadow: 0 0 8px rgba(156, 60, 251, 0.5);
+}
+/* ! ACIMA APENAS HEADER / CABEÇALHO (FECHADO) ! */
+
+/* ! MAIN ! CONTEÚDO PRINCIPAL */
+
+/* 1º Seção / Section */
+.main1section {
+  color: azure;
+  padding: 90px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  background: linear-gradient(90deg, #14033a 0%, #140128 50%, #052754 100%);
+}
+
+.section-icon,
+.main1section img {
+  width: 56px;
+  height: 56px;
+}
+
+.textBlock {
+  max-width: 760px;
+  width: 100%;
+  text-align: center;
+}
+
+/* TÍTULOS */
+.textSobre h1,
+.textProjeto h1 {
+  margin: 0;
+  font-size: 2.3rem;
+  letter-spacing: 0.02em;
+}
+
+/* AGRUPA ÍCONE + TÍTULO */
+.titulo-bloco {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+
+.titulo-bloco h1 {
+  margin: 0;
+}
+
+.section-divider {
+  width: 120px;
+  height: 2px;
+  background: #9c3cfb;
+  border-radius: 2px;
+  margin: 16px auto 24px;
+}
+
+.textBlock p {
+  margin: 0 auto 24px;
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+.project-small-description {
+  color: #dcd7ff;
+  margin-top: 0;
+  margin-bottom: 28px;
+  font-size: 1rem;
+}
+
+.project-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(156, 60, 251, 0.25);
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow:
+    inset 0 0 1px rgba(255, 255, 255, 0.08),
+    0 16px 28px rgba(0, 0, 0, 0.2);
+}
+
+.project-card:hover {
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 1px rgb(136, 55, 233),
+    0 16px 28px rgba(136, 55, 233, 0.2);
+}
+
+.project-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  background: rgba(28, 8, 58, 0.8);
+}
+
+.project-info {
+  max-width: 520px;
+  text-align: left;
+}
+
+.project-info h2 {
+  margin: 0 1rem 12px;
+  font-size: 1.6rem;
+}
+
+.project-info p {
+  margin: 0 1rem 12px;
+  line-height: 1.6;
+  color: #dcd7ff;
+  text-align: left;
+}
+/* ! SEÇÃO TECNOLOGIAS ! */
+
+.main2section {
+  background-color: #09011d;
+  color: white;
+  padding: 100px 60px;
+  text-align: center;
+}
+
+/* CONTAINER DAS TECNOLOGIAS */
+.tech-container {
+  display: flex; /* deixa lado a lado */
+  justify-content: center;
+  gap: 40px; /* espaço entre itens */
+  margin-top: 20px;
+}
+
+/* ITEM INDIVIDUAL */
+.tech-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* ÍCONE */
+.tech-item img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+/* ! SEÇÃO EQUIPE ! */
+
+.main3section {
+  background: linear-gradient(
+    90deg,
+    /* ângulo horizontal */ #14033a 0%,
+    /* início */ #140128 50%,
+    /* meio (roxo destaque) */ #01142e 100% /* fim (azul) */
+  );
+  color: white;
+  padding: 100px 60px;
+  text-align: center;
+}
+
+/* CONTAINER DA EQUIPE */
+.team-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+/* CARD DO MEMBRO */
+.member {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+
+  transition: 0.3s;
+}
+
+/* FOTO */
+.member img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* deixa circular */
+  margin-bottom: 10px;
+}
+
+/* HOVER */
+.member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .menu {
+    display: none;
+    max-width: 100%;
+  }
+  .navMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .downHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1rem;
+    background-position: right;
+  }
+  .downHeader h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    max-width: 100%;
+  }
+  .downHeader p {
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 100%;
+  }
+  title {
+    display: none;
+  }
+  #format {
+    color: #9838f7;
+  }
+  header {
+    max-width: 100%;
+  }
+  /* * {
+    outline: 1px solid red;
+    } */
+  .btn {
+    width: 100%;
+  }
+  .botao {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .textProjeto {
+    border-left: 0; /* linha vertical */
+    padding-left: 0; /* afasta o texto da linha */
+  }
+  .textSobre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main1section {
+    gap: 35px;
+  }
+
+  .team-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .member {
+    width: 100%;
+    max-width: 100%;
+  }
+  .social {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+/* ! FOOTER ! RODAPÉ ! */
+
+.footer {
+  background: #0b0b1a; /* fundo escuro */
+  padding: 1px; /* espaço interno */
+  text-align: center; /* centraliza tudo */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* linha superior */
+}
+
+.logoFooter {
+  font-size: 24px;
+  height: 40px; /* controla o tamanho da logo */
+  padding: 20px;
+}
+
+.footerConteudo {
+  max-width: 800px; /* limita largura */
+  margin: 0 auto; /* centraliza */
+  display: flex; /* coloca os elementos lado a lado */
+  justify-content: space-between; /* distribui espaço */
+  align-items: center; /* alinha verticalmente */
+  padding: 40px;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+  color: #777; /* mais discreto */
+  font-size: 14px;
+  gap: 6px;
+}
+
+.social {
+  display: flex; /* deixa os ícones lado a lado */
+  gap: 35px; /* espaço entre eles */
+}
+
+.social img {
+  
+  height: 35px; /* tamanho dos ícones */
+  cursor: pointer; /* cursor de clique */
+  transition: 0.3s;
+}
+
+.social img:hover {
+  transform: scale(1.1); /* leve aumento ao passar o mouse */
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------*/
+/*FIM--------------------------------------------------------------------------------------------------------------------------------------------*/

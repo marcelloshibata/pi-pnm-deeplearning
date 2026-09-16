@@ -1,0 +1,302 @@
+<!-- Comentários estão acima da tag referenciada. - Kawan-->
+<!-- Este documento usa HTML5 -->
+<!doctype html>
+<!-- Idioma da página = português do Brasil -->
+<html lang="pt-br">
+  <head>
+    <!-- permite acentos (á, é, ç) -->
+    <meta charset="UTF-8" />
+    <!-- 
+    Responsividade é a capacidade de um site se adaptar automaticamente a diferentes tamanhos de tela.
+
+    viewport = área visível da página no dispositivo 
+    width=device-width = faz a largura da página = largura real do dispositivo
+    initial-scale=1.0 = define o zoom inicial = 100%  
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Icone pequeno na aba do navegador -->
+    <link
+      rel="shortcut icon"
+      href="imgs/logos/icon/vIcon.ico"
+      type="image/x-icon"
+    />
+    <!-- Nome da aba do navegador -->
+    <title>DeepVision - Technologies</title>
+    <!-- SEO | Mecanismos de busca -->
+    <meta
+      name="description"
+      content="Projeto de visão computacional desenvolvido na Fatec"
+    />
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Fonte externa (Kulim Park) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kulim+Park:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <!----------------------------------------------------------------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------------------------------------------------------------->
+  <!----------------------------------------------------------------------------------------------------------------------------------->
+
+  <!-- Tag <BODY> se refere ao corpo principal do site, sua estrutura visível como um todo. -->
+  <body>
+    <div id="topo"></div>
+    <!-- Tag <HEADER> diz para página que ali dentro contém um CABEÇALHO | SEMÂNTICA-->
+    <header>
+      <!-- Tag <NAV> diz para o navegador "Aqui tem NAVegação / LINKS" | SEMÂNTICA-->
+      <nav class="navMenu">
+        <!-- Imagem da logo -->
+        <img src="imgs/logos/Logo.png" alt="Deep Vision" class="logo" />
+
+        <ul class="menu">
+          <li><a href="#">Início</a></li>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#project">Projetos</a></li>
+          <li><a href="#equipe">Equipe</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+
+        <!-- Tag <DIV> agrupa elementos, serve como "container" | NÃO SEMÂNTICA -->
+        <div class="login-cadastro-grupo">
+          <!-- BOTÃO DE CADASTRO -->
+          <a href="#cadastro" class="btnCadastro">Fale Conosco</a
+          ><!-- <button class="btnCadastro">Cadastro</button> -->
+        </div>
+      </nav>
+
+      <!-- Tag <SECTION> divide o conteúdo em *BLOCOS* "temáticos", parte independente que se relaciona com o contexto da página. | SEMÂNTICA-->
+      <section class="downHeader">
+        <div class="header-left">
+          <h1>
+            <strong id="format">DeepVision <br /> </strong>Inteligência
+            Artificial
+            <br />
+            que enxerga além!
+          </h1>
+
+          <p>
+            Desenvolvemos soluções inteligentes com visão computacional
+            <br />
+            para transformar dados em impacto real.
+          </p>
+
+          <div class="botao">
+            <button
+              class="btn"
+              type="button"
+              onclick="location.href = '#project'"
+            >
+              Conheça o projeto
+            </button>
+            <button
+              class="btn"
+              type="button"
+              onclick="location.href = '#equipe'"
+            >
+              Conheça a equipe
+            </button>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------>
+
+    <main>
+      <!-- Abaixo encontra-se uma seção que diz sobre a EQUIPE e alguns dos nossos PROJETOS. -->
+        <section class="main1section" id="sobre">
+          <div class="textBlock">
+            <div class="titulo-bloco">
+              <img
+                src="imgs/icons/iconTeam.png"
+                alt="sobrenos"
+                class="section-icon"
+              />
+              <h1>Sobre nós</h1>
+            </div>
+            <p>
+              A DeepVision é uma equipe de desenvolvimento de software focada em
+              desenvolver soluções inovadoras utilizando a visão computacional.
+              Equipe formada durante o primeiro semestre na FATEC de Registro,
+              no curso de Desenvolvimento de Software Multiplataforma.
+            </p>
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="textBlock textProjeto" id="project">
+            <div class="titulo-bloco">
+              <img
+                src="imgs/icons/iconProjects.png"
+                alt="projetos"
+                class="section-icon"
+              />
+              <h1>Projetos</h1>
+            </div>
+            <p class="project-small-description">
+              Descubra um dos nossos projetos em desenvolvimento com foco em
+              visão computacional.
+            </p>
+
+            <div
+              class="project-card"
+              onclick="
+                window.location.href =
+                  'https://www.figma.com/proto/pwOCGuZdxu3PTxRsFo4uQO/FaceTEA?node-id=370-468&p=f&t=YsMcHG1GSE6Xxy3Q-0&scaling=scale-down-width&content-scaling=fixed&page-id=12%3A2&starting-point-node-id=370%3A468'
+              "
+            >
+              <img
+                src="imgs/logos/logofacetea.png"
+                alt="Logo do projeto"
+                class="project-logo"
+              />
+              <div class="project-info">
+                <h2>FaceTEA</h2>
+                <p>
+                  Sistema desenvolvido para a terapia de crianças com Transtorno
+                  de Espectro Autista. Utiliza visão computacional para
+                  reconhecimento de expressões faciais em tempo real, além de
+                  gerar relatórios detalhados para análise do terapeuta.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      <section class="main2section">
+        <h1>Tecnologias Utilizadas</h1>
+
+        <div class="tech-container">
+          <!-- ITEM DE TECNOLOGIA -->
+          <div class="tech-item">
+            <img src="imgs/icons/tecnologias/html.png" alt="HTML" />
+            <p>HTML</p>
+          </div>
+
+          <div class="tech-item">
+            <img src="imgs/icons/tecnologias/css.png" alt="CSS" />
+            <p>CSS</p>
+          </div>
+
+          <div class="tech-item">
+            <img src="imgs/icons/tecnologias/javascript.png" alt="JavaScript" />
+            <p>JavaScript</p>
+          </div>
+        </div>
+      </section>
+      <section class="main3section">
+        <h1>Nossa Equipe</h1>
+
+        <div class="team-container">
+          <!-- MEMBRO -->
+          <div class="member" id="equipe">
+            <img src="imgs/membros/Kawan.jpeg" alt="Membro 1 - Kawan Peniche" />
+            <h3>Kawan Peniche</h3>
+          </div>
+
+          <div class="member">
+            <img
+              src="imgs/membros/millie.jpeg"
+              alt="Membro 2 - Millie Santos"
+            />
+            <h3>Millie Santos</h3>
+          </div>
+
+          <div class="member">
+            <img
+              src="imgs/membros/osvaldo.jpeg"
+              alt="Membro 3 - Osvaldo Carvalho"
+            />
+            <h3>Osvaldo Carvalho</h3>
+          </div>
+
+          <div class="member">
+            <img src="imgs/membros/hector.jpeg" alt="Membro 4 - Hector Yagyu" />
+            <h3>Hector Yagyu</h3>
+          </div>
+
+          <div class="member">
+            <img src="imgs/membros/julio.jpg" alt="Membro 5 - Julio Lima" />
+            <h3>Julio Lima</h3>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+
+    <!-- Tag <FOOTER> diz a página "aqui é o **RODAPÉ** do site" | SEMÂNTICO -->
+    <footer class="footer">
+      <!-- container interno para organizar o conteúdo -->
+      <div class="footerConteudo">
+        <img src="imgs/logos/Logo.png" alt="Deep Vision" class="logoFooter" />
+
+        <!-- direitos autorais| &copy representa o "c comercial = ©" -->
+        <p class="footer-copy">
+          &copy; 2026 DeepVision - Projeto Integrador D.S.M 1.
+        </p>
+        <p class="footer-copy">
+          <strong>Todos os direitos reservados.</strong>
+        </p>
+
+        <!-- links para redes sociais -->
+        <div class="social" id="contato">
+          <!-- ! target="_blank" faz com que se abra uma nova guia quando o usuário clica no link ! -->
+          <a
+            href="https://github.com/kawanvinicius742-wq/Projeto_Integrador_TEA"
+            target="_blank"
+            ><img src="imgs/icons/contato/mdi_github.png" alt="GitHub"
+          /></a>
+          <a href="https://www.instagram.com/fatecregistro/" target="_blank"
+            ><img src="imgs/icons/contato/mdi_instagram.png" alt="Instagram"
+          /></a>
+          <a href="https://br.linkedin.com/" target="_blank"
+            ><img src="imgs/icons/contato/mdi_linkedin.png" alt="LinkedIn"
+          /></a>
+        </div>
+      </div>
+    </footer>
+
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+    <!----------------------------------------------------------------------------------------------------------------------------------------->
+
+    <!-- MODAL DE CADASTRO / FORMULÁRIO -->
+    <div id="cadastro" class="modal">
+      <!-- FUNDO ESCURO -->
+      <a href="#topo" class="modal-overlay"></a>
+
+      <!-- CAIXA DO FORMULÁRIO -->
+      <div class="modal-content">
+        <!-- BOTÃO FECHAR -->
+
+        <a href="#topo" class="close">&times;</a>
+
+        <h2>Fale Conosco</h2>
+
+        <form>
+          <input class="cad" type="text" placeholder="Nome Completo" required />
+          <input class="cad" type="email" placeholder="E-mail" required />
+
+          <textarea
+            class="obs"
+            rows="6"
+            cols="40"
+            name="observacoes"
+            placeholder="Deixe sua dúvida, sugestão ou comentário aqui..."
+          ></textarea>
+
+          <button type="submit" class="btn">Enviar</button>
+        </form>
+      </div>
+    </div>
+
+    <!--NADA FICA ABAIXO DAS TAGS <BODY> E <HTML> ! Por lógica, nada também ficará abaixo da Tag <FOOTER> (RODAPÉ).----------------------------------------------------------------------------------------------------------------->
+  </body>
+</html>
