@@ -1,15 +1,15 @@
-.hero {
-  /* background-color: crimson; */
-  background-image: url("/Website/imgs/teste.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  border-bottom: 1px solid black;
-  min-height: 750px;
+.lateralHero {
+  justify-content: center;
+  align-items: left;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%);
+  margin: 0;
+  width: 40vw;
+  min-height: 100vh;
+  font-family: "Cormorant Garamond", serif;
+  color: azure;
 }
 
 @media (max-width: 768px) {
-    .hero {
-        background-size: 100%;
-    }
 }

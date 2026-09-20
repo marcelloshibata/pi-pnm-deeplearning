@@ -4,10 +4,97 @@
 
 /* CONTEÚDO PRINCIPAL */
 
-body {
-  margin: 0%;
-  min-height: auto;
-  min-width: auto;
+html {
+  position: fixed; /* Está impedindo a tela de apresentar espaços em branco ao arrastar além do limite ! */
 }
 
-@media (max-width: 768px) {}
+body {
+  margin: 0; /* Tira contorno branco ao redor da estrutura / página */
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.apresentacao {
+  padding-left: 50px;
+}
+
+.contLogin {
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(222, 212, 212);
+  margin: 0;
+  width: 60vw;
+  min-height: 100vh;
+  font-family: "Cormorant Garamond", serif;
+  color: azure;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardLogin {
+  width: 500px;
+  height: 650px;
+  max-width: 500px;
+  max-height: 650px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.12);
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding-left: 80px;
+}
+
+.cardButton {
+  width: 400px;
+  height: 55px;
+  background-color: rgb(212, 212, 212);
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+  display: flex;
+    margin-bottom: 20px;
+
+}
+
+.btnForm {
+  color: white;
+  background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%);
+  width: 400px;
+  height: 55px;
+  border-radius: 10px;
+  border: 0;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+
+
+.iptLogin {
+  width: 400px;
+  height: 55px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.lblLogin{padding: 15px;}
+
+
+#redefinirSenha{margin-left: 230px;}
+
+
+.tipoUsuario{
+  width: 185px;
+  height: 45px;
+  border-radius: 10px;
+  border: none;
+}
+
+@media (max-width: 768px) {
+}
