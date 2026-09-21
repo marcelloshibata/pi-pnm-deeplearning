@@ -63,9 +63,20 @@ body {
 
 }
 
-.btnForm {
+.btnEntForm {
   color: white;
   background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%);
+  width: 400px;
+  height: 55px;
+  border-radius: 10px;
+  border: 0;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+.btnCadForm {
+  color: red;
+  background: white;
   width: 400px;
   height: 55px;
   border-radius: 10px;
