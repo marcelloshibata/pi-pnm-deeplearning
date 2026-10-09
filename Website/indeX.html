@@ -41,26 +41,52 @@
         <section class="contLogin">
           <div class="cardLogin">
             <h1><strong>Acesso à plataforma</strong></h1>
-            <p>
-              Entre com suas credenciais para enviar exames <br> e visualizar
-              relatórios
+            <p style="color: #7a5050">
+              Entre com suas credenciais para enviar exames <br />
+              e visualizar relatórios
             </p>
-            <div class="cardButton">
+            <!-- <div class="cardButton">
               <button class="tipoUsuario">Sou Paciente</button>
               <button class="tipoUsuario">Sou Profissional</button>
-            </div>
-            <label class="lblLogin" for="email">E-mail </label>
-            <input class="iptLogin" type="email" id="email" />
+            </div> -->
+            <label style="font-weight:700" class="lblLogin" for="email"
+              >E-mail / CRM</label
+            >
+            <input
+              class="iptLogin"
+              type="email"
+              id="email"
+              placeholder="crm@hospital.com.br"
+            />
 
-            <label class="lblLogin" for="senha"
-              >Senha <a id="redefinirSenha" href="#redefinirSenha"> Esqueceu a Senha?</a></label
+            <label style="font-weight:700" class="lblLogin" for="senha"
+              >Senha
+              <a class="redefinir" id="redefinirSenha" href="#redefinirSenha">
+                Esqueceu a Senha?</a
+              ></label
             >
 
-            <input class="iptLogin" type="password" id="senha" />
+            <input
+              class="iptLogin"
+              type="password"
+              id="senha"
+              placeholder="********"
+            />
 
             <button class="btnEntForm">Entrar na plataforma</button>
 
-            <button class="btnCadForm">Criar conta gratuitamente</button>
+            <label style="color: #7a5050" class="lblLogin">
+              -------------------------- Primeiro Acesso? ----------------------
+            </label>
+
+            <button class="btnCadForm">Criar conta</button>
+
+            <label style="color: #7a5050" class="lblLogin"
+              >Seus dados são protegidos conforme a
+              <strong style="color: #64b9f6">LGPD</strong> e criptografados em
+              trânsito e em repouso.
+            </label>
+            
           </div>
         </section>
       </section>

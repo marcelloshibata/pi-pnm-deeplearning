@@ -3,7 +3,11 @@
   align-items: left;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%);
+  background-image: url(/Website/imgs/Container.png);
+  background-repeat: no-repeat; 
+  /* background-size: 100%; */
+  /* filter: brightness(); */
+  /* background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%); */
   margin: 0;
   width: 40vw;
   min-height: 100vh;

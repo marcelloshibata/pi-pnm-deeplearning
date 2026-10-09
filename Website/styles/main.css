@@ -17,6 +17,7 @@ body {
 .container {
   display: flex;
   flex-direction: row;
+  position: fixed;
 }
 
 .apresentacao {
@@ -30,10 +31,11 @@ body {
   margin: 0;
   width: 60vw;
   min-height: 100vh;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Dm Sans", sans-serif;
   color: azure;
   justify-content: center;
   align-items: center;
+  /* position:static; */
 }
 
 .cardLogin {
@@ -49,6 +51,8 @@ body {
   flex-direction: column;
   align-items: left;
   padding-left: 80px;
+
+  /* justify-content:center; */
 }
 
 .cardButton {
@@ -59,48 +63,60 @@ body {
   align-items: center;
   justify-content: space-evenly;
   display: flex;
-    margin-bottom: 20px;
-
+  margin-bottom: 20px;
 }
 
 .btnEntForm {
   color: white;
-  background: linear-gradient(145deg, #c83732 0%, #dd4c48 45%, #f57973 100%);
-  width: 400px;
+  /* background: linear-gradient(145deg, #154495 0%, #2676d3 45%, #3576b2 100%); */
+  background-color: #64b9f6;
+  width: 415px;
   height: 55px;
+  border-width: 1px;
   border-radius: 10px;
   border: 0;
-  margin-top: 50px;
-  font-size: 20px;
+  margin-top: 5px;
+  font-size: 17px;
 }
 
 .btnCadForm {
-  color: red;
+  color: #64b9f6;
   background: white;
-  width: 400px;
+  width: 415px;
   height: 55px;
+  border-color: #7a5050;
+  border-width: 1px;
   border-radius: 10px;
-  border: 0;
-  margin-top: 50px;
-  font-size: 20px;
+  border-style: outset;
+  margin-top: 5px;
+  font-size: 17px;
 }
-
-
 
 .iptLogin {
   width: 400px;
   height: 55px;
+  border-width: 1px;
   border-radius: 10px;
+  border-style: groove;
+  border-color: #7a5050;
   background-color: white;
+  padding-left: 10px;
 }
 
-.lblLogin{padding: 15px;}
+.lblLogin {
+  padding: 15px;
+  
+}
 
+#redefinirSenha {
+  margin-left: 190px;
+}
+.redefinir {
+  color: #64b9f6;
+  margin: 0%;
+}
 
-#redefinirSenha{margin-left: 230px;}
-
-
-.tipoUsuario{
+.tipoUsuario {
   width: 185px;
   height: 45px;
   border-radius: 10px;
