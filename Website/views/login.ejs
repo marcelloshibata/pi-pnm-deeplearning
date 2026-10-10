@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('partials/head', { title: 'DPRT | Acesso à plataforma' }) %>
+</head>
+<body>
+  <main class="app">
+    <%- include('partials/brand-panel', {
+      eyebrow: 'Diagnóstico assistido por IA',
+      headline: 'Radiografias<br>\n          analisadas com<br>\n          <em>precisão clínica.</em>',
+      text: 'Envie a radiografia de tórax e receba em segundos um relatório gerado por deep learning para auxiliar no diagnóstico de pneumonia.'
+    }) %>
+
+    <section class="login-panel">
+      <div class="login-card">
+        <h2 class="login-card__title">Acesso à plataforma</h2>
+        <p class="login-card__subtitle">Entre com suas credenciais para enviar exames e visualizar relatórios</p>
+
+        <form class="login-form" action="/login" method="post">
+          <div class="field">
+            <label class="field__label" for="email">E-mail / CRM</label>
+            <input class="field__input" type="text" id="email" name="email" placeholder="crm@hospital.com.br" autocomplete="username">
+          </div>
+
+          <%- include('partials/password-field', { id: 'senha', label: 'Senha', autocomplete: 'current-password' }) %>
+
+          <button class="btn btn--primary" type="submit">Entrar na plataforma</button>
+        </form>
+
+        <div class="divider"><span>Primeiro acesso?</span></div>
+
+        <a class="btn btn--outline" href="/cadastro">Criar conta</a>
+
+        <p class="login-card__legal">
+          Seus dados são protegidos conforme a <span>LGPD</span> e criptografados em trânsito e em repouso.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/password-toggle-script') %>
+</body>
+</html>

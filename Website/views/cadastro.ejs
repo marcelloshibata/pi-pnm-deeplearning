@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('partials/head', { title: 'DPRT | Criar conta' }) %>
+</head>
+<body>
+  <main class="app">
+    <%- include('partials/brand-panel', {
+      modifier: 'brand-panel--register',
+      eyebrow: 'Bem-vindo à plataforma',
+      headline: 'Crie sua conta<br>\n          e comece a<br>\n          <em>salvar vidas.</em>',
+      text: 'Cadastre-se para enviar radiografias de tórax e receber relatórios gerados por inteligência artificial em segundos.'
+    }) %>
+
+    <section class="login-panel">
+      <div class="login-card">
+        <a class="back-link" href="/">
+          <img src="/imgs/arrow-left.svg" alt="" width="15" height="15">
+          Voltar ao login
+        </a>
+
+        <h2 class="login-card__title login-card__title--register">Criar conta</h2>
+        <p class="login-card__subtitle">Preencha seus dados para o primeiro acesso</p>
+
+        <form class="login-form" action="/cadastro" method="post">
+          <div class="field">
+            <label class="field__label" for="nome">Nome completo</label>
+            <input class="field__input" type="text" id="nome" name="nome" placeholder="Dr. Ana Souza" autocomplete="name">
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="email">E-mail / CRM</label>
+            <input class="field__input" type="text" id="email" name="email" placeholder="crm@hospital.com.br" autocomplete="email">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field__label" for="crm">CRM</label>
+              <input class="field__input" type="text" id="crm" name="crm" placeholder="CRM/SP 123456">
+            </div>
+            <div class="field">
+              <label class="field__label" for="instituicao">Instituição</label>
+              <input class="field__input" type="text" id="instituicao" name="instituicao" placeholder="Hospital / Clínica">
+            </div>
+          </div>
+
+          <%- include('partials/password-field', { id: 'senha', label: 'Senha', autocomplete: 'new-password', modifier: 'field--spaced' }) %>
+          <%- include('partials/password-field', { id: 'confirmar', label: 'Confirmar senha', autocomplete: 'new-password' }) %>
+
+          <p class="terms">
+            Ao criar sua conta você concorda com os <span>Termos de Uso</span> e a <span>Política de Privacidade</span>.
+          </p>
+
+          <button class="btn btn--primary btn--register" type="submit">Criar minha conta</button>
+        </form>
+
+        <p class="login-card__legal">
+          Dados protegidos conforme a <span>LGPD</span> e criptografados em trânsito e em repouso.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/password-toggle-script') %>
+</body>
+</html>
