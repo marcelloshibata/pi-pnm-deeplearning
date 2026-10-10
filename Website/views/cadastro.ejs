@@ -29,8 +29,8 @@
           </div>
 
           <div class="field">
-            <label class="field__label" for="email">E-mail / CRM</label>
-            <input class="field__input" type="text" id="email" name="email" placeholder="crm@hospital.com.br" autocomplete="email">
+            <label class="field__label" for="email">E-mail</label>
+            <input class="field__input" type="text" id="email" name="email" placeholder="anasouza@hospital.com.br" autocomplete="email">
           </div>
 
           <div class="field-row">
@@ -49,8 +49,8 @@
             <input class="field__input" type="text" id="especialidade" name="especialidade" placeholder="Radiologia">
           </div>
 
-          <%- include('partials/password-field', { id: 'senha', label: 'Senha', autocomplete: 'new-password', modifier: 'field--spaced' }) %>
-          <%- include('partials/password-field', { id: 'confirmar', label: 'Confirmar senha', autocomplete: 'new-password' }) %>
+          <%- include('partials/password-field', { id: 'senha', name: 'senha', label: 'Senha', autocomplete: 'new-password', modifier: 'field--spaced' }) %>
+          <%- include('partials/password-field', { id: 'confirmar', name: 'confirmarSenha', label: 'Confirmar senha', autocomplete: 'new-password' }) %>
 
           <p class="terms">
             Ao criar sua conta você concorda com os <span>Termos de Uso</span> e a <span>Política de Privacidade</span>.
