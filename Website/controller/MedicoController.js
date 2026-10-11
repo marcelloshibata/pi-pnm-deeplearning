@@ -8,10 +8,11 @@ export function cadastrar(req, res) {
     const email_medico = req.body.email;
     const crm_medico = req.body.crm;
     const instituicao = req.body.instituicao;
+    const especialidade = req.body.especialidade;
     const senha = req.body.senha;
     const confirmar = req.body.confirmarSenha;
 
-    if (!nome_medico || !email_medico || !crm_medico || !instituicao || !senha || !confirmar) {
+    if (!nome_medico || !email_medico || !crm_medico || !instituicao || !senha || !confirmar || !especialidade) {
         return res.status(400).render("cadastro", { erro: "Preencha todos os campos." });
     }
 
@@ -41,10 +42,11 @@ export function cadastrar(req, res) {
                 email_medico: emailLimpo,
                 crm_medico: crmLimpo,
                 senha_hash: senha_hash,
+                especialidade_medico: especialidade,
                 hospital: { nome: instituicao }
             })
         }).then(() => {
-            res.redirect("/login");
+            res.status(201).render("cadastro", { sucesso: "Você foi cadastrado com sucesso." });
         })
     }).catch(error => {
         console.log(`Ocorreu um erro ao cadastrar o usuário. Erro ${error}`);

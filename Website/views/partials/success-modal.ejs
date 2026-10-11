@@ -1,0 +1,23 @@
+<% if (locals.sucesso) { %>
+<dialog class="error-modal success-modal" id="success-modal" tabindex="-1" aria-labelledby="success-modal-title" aria-describedby="success-modal-message">
+  <div class="error-modal__alert">
+    <img src="/imgs/circle-check.svg" alt="" width="36" height="36">
+  </div>
+
+  <h2 class="error-modal__title" id="success-modal-title">Sucesso</h2>
+  <p class="error-modal__message" id="success-modal-message"><%= sucesso %></p>
+
+  <div class="error-modal__footer">
+    <a class="btn error-modal__btn" href="/login">Voltar para o Login</a>
+  </div>
+</dialog>
+
+<script>
+  const successModal = document.getElementById('success-modal');
+  successModal.showModal();
+  successModal.focus();
+
+  // O cadastro já foi concluído: o único caminho é voltar ao login, então não fecha com Esc.
+  successModal.addEventListener('cancel', (event) => event.preventDefault());
+</script>
+<% } %>
