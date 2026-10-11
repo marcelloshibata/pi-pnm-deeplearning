@@ -6,6 +6,7 @@
   --border: #e8cac8;
   --bg-right: #ede8e8;
   --danger: #d34a43;
+  --success: #278653;
   --modal-title: #202938;
   --modal-text: #637083;
   --modal-border: #e5e9ef;
@@ -385,6 +386,15 @@ body {
 .error-modal__btn:focus-visible {
   outline: 2px solid var(--danger);
   outline-offset: 2px;
+}
+
+/* Modal de sucesso (reaproveita a estrutura e a animação do modal de erro) */
+.success-modal .error-modal__btn {
+  background: var(--success);
+}
+
+.success-modal .error-modal__btn:focus-visible {
+  outline-color: var(--success);
 }
 
 @media (max-width: 800px) {
