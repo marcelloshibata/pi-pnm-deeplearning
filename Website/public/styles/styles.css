@@ -5,6 +5,10 @@
   --text-muted: #7a5050;
   --border: #e8cac8;
   --bg-right: #ede8e8;
+  --danger: #d34a43;
+  --modal-title: #202938;
+  --modal-text: #637083;
+  --modal-border: #e5e9ef;
 }
 
 *,
@@ -283,6 +287,104 @@ body {
 .btn--register {
   height: 44px;
   margin-top: 0;
+}
+
+/* Modal de erro */
+.error-modal {
+  width: 420px;
+  max-width: calc(100% - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  font-variation-settings: 'opsz' 14;
+  background: #fff;
+  border: 1px solid var(--modal-border);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(32, 41, 56, 0.1);
+  outline: none;
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    overlay 0.25s allow-discrete,
+    display 0.25s allow-discrete;
+}
+
+.error-modal[open] {
+  opacity: 1;
+  transform: none;
+}
+
+.error-modal::backdrop {
+  background: rgba(31, 13, 13, 0);
+  transition:
+    background 0.25s ease,
+    overlay 0.25s allow-discrete,
+    display 0.25s allow-discrete;
+}
+
+.error-modal[open]::backdrop {
+  background: rgba(31, 13, 13, 0.3);
+}
+
+@starting-style {
+  .error-modal[open] {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  .error-modal[open]::backdrop {
+    background: rgba(31, 13, 13, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-modal,
+  .error-modal::backdrop {
+    transition-duration: 0.01ms;
+  }
+}
+
+.error-modal__alert {
+  display: flex;
+  justify-content: center;
+  height: 76px;
+  padding-top: 27px;
+}
+
+.error-modal__title {
+  padding: 0 28px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 34px;
+  text-align: center;
+  color: var(--modal-title);
+}
+
+.error-modal__message {
+  padding: 8px 28px 0;
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--modal-text);
+  overflow-wrap: break-word;
+}
+
+.error-modal__footer {
+  padding: 24px 28px;
+}
+
+.error-modal__btn {
+  height: 48px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--danger);
+  border: 0;
+}
+
+.error-modal__btn:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
 }
 
 @media (max-width: 800px) {

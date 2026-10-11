@@ -1,0 +1,25 @@
+<% if (locals.erro) { %>
+<dialog class="error-modal" id="error-modal" tabindex="-1" aria-labelledby="error-modal-title" aria-describedby="error-modal-message">
+  <div class="error-modal__alert">
+    <img src="/imgs/circle-alert.svg" alt="" width="36" height="36">
+  </div>
+
+  <h2 class="error-modal__title" id="error-modal-title">Erro</h2>
+  <p class="error-modal__message" id="error-modal-message"><%= erro %></p>
+
+  <form class="error-modal__footer" method="dialog">
+    <button class="btn error-modal__btn" type="submit">OK</button>
+  </form>
+</dialog>
+
+<script>
+  const errorModal = document.getElementById('error-modal');
+  errorModal.showModal();
+  errorModal.focus();
+
+  // Fecha ao clicar fora do modal (no backdrop)
+  errorModal.addEventListener('click', (event) => {
+    if (event.target === errorModal) errorModal.close();
+  });
+</script>
+<% } %>
