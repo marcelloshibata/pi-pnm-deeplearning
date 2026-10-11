@@ -36,7 +36,7 @@ export function cadastrar(req, res) {
         }
 
         return bcrypt.hash(senha, 10).then((senha_hash) => {
-            Medico.create({
+            return Medico.create({
                 nome_medico: nome_medico,
                 email_medico: emailLimpo,
                 crm_medico: crmLimpo,
@@ -48,6 +48,7 @@ export function cadastrar(req, res) {
         })
     }).catch(error => {
         console.log(`Ocorreu um erro ao cadastrar o usuário. Erro ${error}`);
+        res.status(500).render("cadastro", { erro: "Erro interno ao cadastrar. Tente novamente." });
     })
 }
 
