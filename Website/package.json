@@ -8,15 +8,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "connect-mongo": "^6.0.0",
     "dotenv": "^18.0.7",
     "ejs": "^7.0.1",
     "express": "^5.3.0",
     "express-session": "^1.19.0",
-    "mongoose": "^9.11.1",
+    "mongoose": "^9.11.1"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.14"
   }
 }
