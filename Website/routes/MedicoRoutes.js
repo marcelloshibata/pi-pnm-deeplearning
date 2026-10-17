@@ -4,6 +4,10 @@ import Auth from '../middleware/Auth.js';
 
 const route = Router();
 
+route.get("/", (req, res) => {
+    res.redirect("/login");
+});
+
 route.get("/login", (req, res) => {
     res.render("login");
 });
