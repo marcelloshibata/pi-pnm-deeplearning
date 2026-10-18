@@ -21,7 +21,7 @@ route.post("/cadastro", cadastrar)
 route.post("/authenticate", authenticate)
 
 route.get("/inicio", Auth, (req, res) => {
-    res.send(`Olá, ${req.session.user.nome}, você está logado!`);
+    res.render("index", { usuario: req.session.user });
 })
 
 export default route;
