@@ -775,3 +775,278 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Modal de novo exame (reaproveita a animação e o fundo escurecido do modal de erro) */
+.exam-modal {
+  width: 832px;
+  max-width: calc(100% - 32px);
+  overflow-y: auto;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(16, 45, 73, 0.2);
+}
+
+.exam-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--dash-line);
+}
+
+.exam-modal__title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.exam-modal__description {
+  padding-top: 6px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dash-muted);
+}
+
+.exam-modal__close {
+  display: flex;
+  flex: 0 0 36px;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  background: var(--dash-bg);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.exam-modal__body {
+  display: grid;
+  gap: 24px;
+  padding: 24px 32px;
+}
+
+.exam-form__section {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  border: 0;
+}
+
+.exam-form__section--upload {
+  gap: 12px;
+}
+
+.exam-form__section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22px;
+}
+
+.exam-form__section--upload .exam-form__section-title {
+  margin-bottom: 12px;
+}
+
+.exam-form__row {
+  display: grid;
+  gap: 16px;
+}
+
+.exam-form__row--name {
+  grid-template-columns: minmax(0, 552fr) minmax(0, 200fr);
+}
+
+.exam-form__row--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.exam-form__row--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.exam-form .field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.field__label--exam {
+  padding-bottom: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.field__input--exam {
+  height: 44px;
+  padding: 0 14px;
+  line-height: 20px;
+  border-color: var(--dash-line);
+}
+
+.field__input--exam[type='number'] {
+  appearance: textfield;
+}
+
+.field__input--exam::-webkit-inner-spin-button,
+.field__input--exam::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.field__input--select {
+  padding-right: 42px;
+  appearance: none;
+  background: #fff url('../imgs/chevron-down.svg') right 14px center / 16px 16px no-repeat;
+  cursor: pointer;
+}
+
+.field__input--select:invalid,
+.field__input--date:invalid {
+  color: rgba(31, 13, 13, 0.5);
+}
+
+.field__input--date::-webkit-calendar-picker-indicator {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  background: url('../imgs/calendar-days-icon.svg') center / 16px 16px no-repeat;
+  cursor: pointer;
+}
+
+/* Área de upload */
+.dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--dash-bg);
+  border: 1px dashed var(--blue);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dropzone--active,
+.dropzone:focus-within {
+  border-style: solid;
+  background: var(--dash-chip);
+}
+
+.dropzone__icon {
+  display: flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  background: var(--dash-chip);
+  border-radius: 12px;
+}
+
+.dropzone__text {
+  display: grid;
+  flex: 1;
+  gap: 4px;
+  min-width: 0;
+}
+
+.dropzone__title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.dropzone__hint,
+.dropzone__status {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dash-muted);
+}
+
+.dropzone__status {
+  line-height: 16px;
+}
+
+.dropzone__button {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: nowrap;
+  color: #367ca9;
+  background: #fff;
+  border: 1px solid var(--dash-line);
+  border-radius: 10px;
+}
+
+/* Fica invisível, mas continua focável para a validação do navegador funcionar */
+.dropzone__input {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.exam-modal__footer {
+  display: grid;
+  gap: 12px;
+  padding: 20px 32px;
+  background: var(--dash-bg);
+  border-top: 1px solid var(--dash-line);
+}
+
+.exam-modal__privacy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--dash-muted);
+}
+
+.exam-modal__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 364px));
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.exam-modal__cancel {
+  height: 48px;
+  font-weight: 600;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--dash-line);
+}
+
+.exam-modal__submit {
+  margin-top: 0;
+}
+
+@media (max-width: 800px) {
+  .exam-modal__header,
+  .exam-modal__body,
+  .exam-modal__footer {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .exam-form__row--name,
+  .exam-form__row--3,
+  .exam-form__row--2,
+  .exam-modal__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dropzone {
+    flex-wrap: wrap;
+  }
+}

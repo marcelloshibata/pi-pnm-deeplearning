@@ -24,4 +24,9 @@ route.get("/inicio", Auth, (req, res) => {
     res.render("index", { usuario: req.session.user });
 })
 
+// Recebe o formulário do modal "Novo exame". O cadastro do exame ainda será implementado.
+route.post("/exames", Auth, (req, res) => {
+    res.redirect("/inicio");
+})
+
 export default route;
