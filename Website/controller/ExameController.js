@@ -34,6 +34,18 @@ const formatarData = (data) =>
     ? new Date(data).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" })
     : "";
 
+// Fração para porcentagem no formato brasileiro (ex.: 0.734 -> "73,4%")
+const formatarPorcentagem = (fracao, casas = 1) =>
+  fracao.toLocaleString("pt-BR", {
+    style: "percent",
+    minimumFractionDigits: casas,
+    maximumFractionDigits: casas,
+  });
+
+// Cor do alerta da análise: acima de 70% vermelho, acima de 40% amarelo, senão verde
+const nivelDeRisco = (fracao) =>
+  fracao > 0.7 ? "danger" : fracao > 0.4 ? "warning" : "success";
+
 // Monta só o que a tela precisa: vai para a tabela e para o modal de visualização
 function formatarExame(exame) {
   const id = exame._id.toString();
@@ -133,6 +145,52 @@ export function imagem(req, res) {
       console.log(`Erro ao abrir a imagem do exame: ${erro}`);
       // Se parte da imagem já foi enviada, não dá mais para trocar o status da resposta
       if (!res.headersSent) res.sendStatus(500);
+    });
+}
+
+// Recebe os dados enviados pelo modal de visualização do exame
+// Os nomes são os mesmos do "name" de cada campo do formulário (iguais às chaves de formatarExame)
+export function analisar(req, res) {
+  const dados = {
+    id: req.body.id,
+    // Dados do paciente
+    paciente: req.body.paciente,
+    idade: Number(req.body.idade),
+    tipoSanguineo: req.body.tipoSanguineo,
+    etnia: req.body.etnia,
+    sexo: req.body.sexo,
+    rg: req.body.rg,
+    cpf: req.body.cpf,
+    // Dados do exame
+    tipoExame: req.body.tipoExame,
+    data: req.body.data,
+    status: req.body.status,
+  };
+
+  const proba = Math.random();
+
+  connection()
+    .then(() =>
+      Exame.findOneAndUpdate(
+        { _id: dados.id, medicoId: req.session.user.id },
+        { probabilidade_pnm: proba },
+      ),
+    )
+    .then((exame) => {
+      if (!exame) return error(req, res, 404, "Exame não encontrado.");
+
+      // Volta para a página inicial e reabre o modal do exame com o alerta da probabilidade
+      return renderInicio(req, res, 200, {
+        analise: {
+          exameId: dados.id,
+          mensagem: `Probabilidade de pneumonia de ${dados.paciente}: ${formatarPorcentagem(proba)}.`,
+          nivel: nivelDeRisco(proba),
+        },
+      });
+    })
+    .catch((erro) => {
+      console.log(`Erro ao analisar o exame: ${erro}`);
+      return error(req, res, 500, "Erro interno ao analisar o exame.");
     });
 }
 
