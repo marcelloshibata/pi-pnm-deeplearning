@@ -1,5 +1,5 @@
 <dialog class="error-modal exam-modal" id="exam-modal" aria-labelledby="exam-modal-title" aria-describedby="exam-modal-description">
-  <form class="exam-form" action="/exames" method="post" enctype="multipart/form-data">
+  <form class="exam-form" action="/exames/cadastrar" method="post" enctype="multipart/form-data">
     <div class="exam-modal__header">
       <div>
         <h2 class="exam-modal__title" id="exam-modal-title">Novo exame</h2>
@@ -67,11 +67,11 @@
         <div class="exam-form__row exam-form__row--2">
           <div class="field">
             <label class="field__label field__label--exam" for="paciente-rg">RG</label>
-            <input class="field__input field__input--exam" type="text" id="paciente-rg" name="rg" placeholder="00.000.000-0" maxlength="12" autocomplete="off" required>
+            <input class="field__input field__input--exam" type="text" id="paciente-rg" name="rg" placeholder="00.000.000-0" maxlength="12" pattern="\d{2}\.\d{3}\.\d{3}-[\dX]" title="Informe o RG completo no formato 00.000.000-0" autocomplete="off" required data-mask="rg">
           </div>
           <div class="field">
             <label class="field__label field__label--exam" for="paciente-cpf">CPF</label>
-            <input class="field__input field__input--exam" type="text" id="paciente-cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" autocomplete="off" required>
+            <input class="field__input field__input--exam" type="text" id="paciente-cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Informe o CPF completo no formato 000.000.000-00" inputmode="numeric" autocomplete="off" required data-mask="cpf">
           </div>
         </div>
       </fieldset>
@@ -108,7 +108,7 @@
           </span>
           <span class="dropzone__text">
             <span class="dropzone__title">Arraste uma imagem para esta área</span>
-            <span class="dropzone__hint">PNG ou JPG • Até 10 MB por arquivo</span>
+            <span class="dropzone__hint">PNG ou JPG • Até 4 MB por arquivo</span>
           </span>
           <span class="dropzone__button">Selecionar imagem</span>
           <input class="dropzone__input" type="file" id="exame-imagem" name="imagem" accept="image/png,image/jpeg" required>
@@ -156,6 +156,56 @@
   imageInput.addEventListener('change', () => {
     const arquivo = imageInput.files[0];
     imageStatus.textContent = arquivo ? `Imagem selecionada: ${arquivo.name}` : defaultImageStatus;
+  });
+
+  // Máscaras de RG e CPF: cada "0" do padrão recebe um caractere digitado
+  const mascaras = {
+    rg: {
+      padrao: '00.000.000-0',
+      // O dígito verificador do RG pode ser "X", então ele só é aceito na última posição
+      limpar: (valor) => {
+        let limpo = '';
+        for (const char of valor.toUpperCase()) {
+          if (limpo.length === 9) break;
+          if (/\d/.test(char) || (char === 'X' && limpo.length === 8)) limpo += char;
+        }
+        return limpo;
+      },
+    },
+    cpf: {
+      padrao: '000.000.000-00',
+      limpar: (valor) => valor.replace(/\D/g, '').slice(0, 11),
+    },
+  };
+
+  function aplicarMascara(valor, padrao) {
+    let formatado = '';
+    let i = 0;
+    for (const char of padrao) {
+      // Para antes de colocar um separador sem número depois dele
+      if (i >= valor.length) break;
+      formatado += char === '0' ? valor[i++] : char;
+    }
+    return formatado;
+  }
+
+  examModal.querySelectorAll('[data-mask]').forEach((input) => {
+    const { padrao, limpar } = mascaras[input.dataset.mask];
+
+    input.addEventListener('input', () => {
+      // Guarda quantos caracteres válidos havia antes do cursor, para ele não pular para o fim ao editar no meio
+      const antesDoCursor = limpar(input.value.slice(0, input.selectionStart)).length;
+      const formatado = aplicarMascara(limpar(input.value), padrao);
+      input.value = formatado;
+
+      let posicao = 0;
+      let contados = 0;
+      while (posicao < formatado.length && contados < antesDoCursor) {
+        if (/[\dX]/.test(formatado[posicao])) contados++;
+        posicao++;
+      }
+      input.setSelectionRange(posicao, posicao);
+    });
   });
 
   // Arrastar e soltar a imagem na área de upload
