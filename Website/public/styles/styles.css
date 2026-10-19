@@ -1071,6 +1071,7 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
   background: var(--dash-bg);
+  cursor: default;
 }
 
 .exam-view__image {
@@ -1089,17 +1090,62 @@ body {
   object-fit: contain;
 }
 
-.exam-view__actions {
-  grid-template-columns: minmax(0, 364px);
-  justify-content: end;
-}
-
 @media (max-width: 800px) {
   .exam-view__image {
     height: 260px;
   }
+}
 
-  .exam-view__actions {
-    grid-template-columns: minmax(0, 1fr);
-  }
+/* Alerta com o resultado da análise (mesmas cores dos Alerts do Bootstrap 5) */
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  font-size: 15px;
+  line-height: 22px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+/* O display: flex acima anularia o atributo hidden */
+.alert[hidden] {
+  display: none;
+}
+
+.alert--danger {
+  color: #58151c;
+  background: #f8d7da;
+  border-color: #f1aeb5;
+}
+
+.alert--warning {
+  color: #664d03;
+  background: #fff3cd;
+  border-color: #ffe69c;
+}
+
+.alert--success {
+  color: #0a3622;
+  background: #d1e7dd;
+  border-color: #a3cfbb;
+}
+
+.alert__message {
+  font-weight: 500;
+}
+
+.alert__close {
+  display: flex;
+  flex-shrink: 0;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.alert__close:hover {
+  opacity: 1;
 }

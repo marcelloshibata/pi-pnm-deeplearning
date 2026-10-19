@@ -1,5 +1,8 @@
 <dialog class="error-modal exam-modal exam-view" id="exam-view-modal" aria-labelledby="exam-view-modal-title" aria-describedby="exam-view-modal-description">
-  <div class="exam-form">
+  <!-- Os campos são somente leitura: o formulário só serve para enviar os dados do exame para análise -->
+  <form class="exam-form" action="/exames/analisar" method="post">
+    <input type="hidden" name="id">
+
     <div class="exam-modal__header">
       <div>
         <h2 class="exam-modal__title" id="exam-view-modal-title">Detalhes do exame</h2>
@@ -11,84 +14,86 @@
     </div>
 
     <div class="exam-modal__body">
-      <section class="exam-form__section">
-        <h3 class="exam-form__section-title">
+      <fieldset class="exam-form__section">
+        <legend class="exam-form__section-title">
           <img src="/imgs/user-round-icon.svg" alt="" width="18" height="18">
           Dados do paciente
-        </h3>
+        </legend>
 
         <div class="exam-form__row exam-form__row--name">
           <div class="field">
-            <span class="field__label field__label--exam">Nome</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="paciente"></p>
+            <label class="field__label field__label--exam" for="exam-view-paciente">Nome</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-paciente" name="paciente" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">Idade</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="idade"></p>
+            <label class="field__label field__label--exam" for="exam-view-idade">Idade</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-idade" name="idade" placeholder="—" readonly>
           </div>
         </div>
 
         <div class="exam-form__row exam-form__row--3">
           <div class="field">
-            <span class="field__label field__label--exam">Tipo sanguíneo</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="tipoSanguineo"></p>
+            <label class="field__label field__label--exam" for="exam-view-tipo-sanguineo">Tipo sanguíneo</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-tipo-sanguineo" name="tipoSanguineo" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">Etnia</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="etnia"></p>
+            <label class="field__label field__label--exam" for="exam-view-etnia">Etnia</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-etnia" name="etnia" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">Sexo biológico</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="sexo"></p>
+            <label class="field__label field__label--exam" for="exam-view-sexo">Sexo biológico</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-sexo" name="sexo" placeholder="—" readonly>
           </div>
         </div>
 
         <div class="exam-form__row exam-form__row--2">
           <div class="field">
-            <span class="field__label field__label--exam">RG</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="rg"></p>
+            <label class="field__label field__label--exam" for="exam-view-rg">RG</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-rg" name="rg" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">CPF</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="cpf"></p>
+            <label class="field__label field__label--exam" for="exam-view-cpf">CPF</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-cpf" name="cpf" placeholder="—" readonly>
           </div>
         </div>
-      </section>
+      </fieldset>
 
-      <section class="exam-form__section">
-        <h3 class="exam-form__section-title">
+      <fieldset class="exam-form__section">
+        <legend class="exam-form__section-title">
           <img src="/imgs/clipboard-list-icon.svg" alt="" width="18" height="18">
           Dados do exame
-        </h3>
+        </legend>
 
         <div class="exam-form__row exam-form__row--3">
           <div class="field">
-            <span class="field__label field__label--exam">Tipo de exame</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="tipoExame"></p>
+            <label class="field__label field__label--exam" for="exam-view-tipo-exame">Tipo de exame</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-tipo-exame" name="tipoExame" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">Data do exame</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="data"></p>
+            <label class="field__label field__label--exam" for="exam-view-data">Data do exame</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-data" name="data" placeholder="—" readonly>
           </div>
           <div class="field">
-            <span class="field__label field__label--exam">Status</span>
-            <p class="field__input field__input--exam exam-view__value" data-campo="status"></p>
+            <label class="field__label field__label--exam" for="exam-view-status">Status</label>
+            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-status" name="status" placeholder="—" readonly>
           </div>
         </div>
-      </section>
+      </fieldset>
 
-      <section class="exam-form__section exam-form__section--upload">
-        <h3 class="exam-form__section-title">
+      <fieldset class="exam-form__section exam-form__section--upload">
+        <legend class="exam-form__section-title">
           <img src="/imgs/image-icon.svg" alt="" width="18" height="18">
           Imagem anexada ao exame
-        </h3>
+        </legend>
 
         <a class="exam-view__image" id="exam-view-image-link" target="_blank" rel="noopener" title="Abrir imagem em nova aba">
           <img id="exam-view-image" alt="Radiografia anexada ao exame">
         </a>
 
-        <p class="dropzone__status" data-campo="imagemNome"></p>
-      </section>
+        <p class="dropzone__status" id="exam-view-image-nome"></p>
+
+        <%- include('analysis-alert') %>
+      </fieldset>
     </div>
 
     <div class="exam-modal__footer">
@@ -96,22 +101,31 @@
         <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
         Dados fictícios • Documentos mascarados
       </p>
-      <div class="exam-modal__actions exam-view__actions">
+      <div class="exam-modal__actions">
         <button class="btn exam-modal__cancel" type="button" data-close-modal>Fechar</button>
+        <button class="btn btn--primary exam-modal__submit" type="submit">Analisar exame</button>
       </div>
     </div>
-  </div>
+  </form>
 </dialog>
 
 <script>
   const examViewModal = document.getElementById('exam-view-modal');
+  const examViewForm = examViewModal.querySelector('.exam-form');
   const examViewImage = document.getElementById('exam-view-image');
   const examViewImageLink = document.getElementById('exam-view-image-link');
+  const examViewImageNome = document.getElementById('exam-view-image-nome');
+  // Só existe quando a página voltou da rota /exames/analisar
+  const analysisAlert = document.getElementById('analysis-alert');
 
   function abrirExame(exame) {
-    examViewModal.querySelectorAll('[data-campo]').forEach((campo) => {
-      campo.textContent = exame[campo.dataset.campo] ?? '—';
+    // O alerta da análise só aparece no modal do exame que foi analisado
+    if (analysisAlert) analysisAlert.hidden = analysisAlert.dataset.exameId !== exame.id;
+    // O "name" de cada campo é a mesma chave do objeto do exame (ex.: name="cpf" -> exame.cpf)
+    examViewForm.querySelectorAll('input[name]').forEach((campo) => {
+      campo.value = exame[campo.name] ?? '';
     });
+    examViewImageNome.textContent = exame.imagemNome ?? '—';
     examViewImage.src = exame.imagemUrl;
     examViewImageLink.href = exame.imagemUrl;
     examViewModal.showModal();
@@ -125,6 +139,9 @@
       if (event.target.closest('a')) return;
       abrirExame(exame);
     });
+
+    // Depois da análise, reabre o modal do exame analisado para mostrar o resultado
+    if (analysisAlert && analysisAlert.dataset.exameId === exame.id) abrirExame(exame);
   });
 
   examViewModal.querySelectorAll('[data-close-modal]').forEach((button) => {
