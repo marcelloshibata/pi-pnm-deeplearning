@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const relatorioSchema = new mongoose.Schema(
   {
@@ -24,7 +24,11 @@ const exameSchema = new mongoose.Schema(
       index: true,
     },
     data_hora_exame: { type: Date, default: Date.now },
-    imagem_exameUrl: String,
+    imagem_exame: {
+      arquivoId: { type: mongoose.Schema.Types.ObjectId, required: true }, // id do GridFs
+      contentType: { type: String, required: true },
+      nomeOriginal: String,
+    },
     status_exame: {
       type: String,
       enum: ["PENDENTE_TRIAGEM", "CONCLUIDO"],

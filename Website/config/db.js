@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// Na Vercel cada instância da função reaproveita o módulo carregado,
+// No Vercel cada instância da função reaproveita o módulo carregado,
 // então guardamos a promise para não abrir uma conexão nova a cada requisição.
 let cached = null;
 
