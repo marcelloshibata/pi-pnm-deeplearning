@@ -1,0 +1,141 @@
+<dialog class="error-modal exam-modal exam-view" id="exam-view-modal" aria-labelledby="exam-view-modal-title" aria-describedby="exam-view-modal-description">
+  <div class="exam-form">
+    <div class="exam-modal__header">
+      <div>
+        <h2 class="exam-modal__title" id="exam-view-modal-title">Detalhes do exame</h2>
+        <p class="exam-modal__description" id="exam-view-modal-description">Dados do paciente e imagem vinculada ao exame.</p>
+      </div>
+      <button class="exam-modal__close" type="button" aria-label="Fechar" data-close-modal>
+        <img src="/imgs/x-icon.svg" alt="" width="18" height="18">
+      </button>
+    </div>
+
+    <div class="exam-modal__body">
+      <section class="exam-form__section">
+        <h3 class="exam-form__section-title">
+          <img src="/imgs/user-round-icon.svg" alt="" width="18" height="18">
+          Dados do paciente
+        </h3>
+
+        <div class="exam-form__row exam-form__row--name">
+          <div class="field">
+            <span class="field__label field__label--exam">Nome</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="paciente"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">Idade</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="idade"></p>
+          </div>
+        </div>
+
+        <div class="exam-form__row exam-form__row--3">
+          <div class="field">
+            <span class="field__label field__label--exam">Tipo sanguíneo</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="tipoSanguineo"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">Etnia</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="etnia"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">Sexo biológico</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="sexo"></p>
+          </div>
+        </div>
+
+        <div class="exam-form__row exam-form__row--2">
+          <div class="field">
+            <span class="field__label field__label--exam">RG</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="rg"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">CPF</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="cpf"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="exam-form__section">
+        <h3 class="exam-form__section-title">
+          <img src="/imgs/clipboard-list-icon.svg" alt="" width="18" height="18">
+          Dados do exame
+        </h3>
+
+        <div class="exam-form__row exam-form__row--3">
+          <div class="field">
+            <span class="field__label field__label--exam">Tipo de exame</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="tipoExame"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">Data do exame</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="data"></p>
+          </div>
+          <div class="field">
+            <span class="field__label field__label--exam">Status</span>
+            <p class="field__input field__input--exam exam-view__value" data-campo="status"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="exam-form__section exam-form__section--upload">
+        <h3 class="exam-form__section-title">
+          <img src="/imgs/image-icon.svg" alt="" width="18" height="18">
+          Imagem anexada ao exame
+        </h3>
+
+        <a class="exam-view__image" id="exam-view-image-link" target="_blank" rel="noopener" title="Abrir imagem em nova aba">
+          <img id="exam-view-image" alt="Radiografia anexada ao exame">
+        </a>
+
+        <p class="dropzone__status" data-campo="imagemNome"></p>
+      </section>
+    </div>
+
+    <div class="exam-modal__footer">
+      <p class="exam-modal__privacy">
+        <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
+        Dados fictícios • Documentos mascarados
+      </p>
+      <div class="exam-modal__actions exam-view__actions">
+        <button class="btn exam-modal__cancel" type="button" data-close-modal>Fechar</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const examViewModal = document.getElementById('exam-view-modal');
+  const examViewImage = document.getElementById('exam-view-image');
+  const examViewImageLink = document.getElementById('exam-view-image-link');
+
+  function abrirExame(exame) {
+    examViewModal.querySelectorAll('[data-campo]').forEach((campo) => {
+      campo.textContent = exame[campo.dataset.campo] ?? '—';
+    });
+    examViewImage.src = exame.imagemUrl;
+    examViewImageLink.href = exame.imagemUrl;
+    examViewModal.showModal();
+  }
+
+  // Cada linha da tabela guarda os dados do exame em data-exame
+  document.querySelectorAll('[data-exame]').forEach((linha) => {
+    const exame = JSON.parse(linha.dataset.exame);
+    linha.addEventListener('click', (event) => {
+      // Links da linha (ex.: Editar) seguem o próprio destino
+      if (event.target.closest('a')) return;
+      abrirExame(exame);
+    });
+  });
+
+  examViewModal.querySelectorAll('[data-close-modal]').forEach((button) => {
+    button.addEventListener('click', () => examViewModal.close());
+  });
+
+  // Fecha ao clicar fora do modal (no backdrop)
+  examViewModal.addEventListener('click', (event) => {
+    if (event.target === examViewModal) examViewModal.close();
+  });
+
+  // Remove a imagem ao fechar, para não aparecer a radiografia anterior ao abrir outro exame
+  examViewModal.addEventListener('close', () => examViewImage.removeAttribute('src'));
+</script>

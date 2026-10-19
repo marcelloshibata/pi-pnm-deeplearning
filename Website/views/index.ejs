@@ -89,21 +89,22 @@
               </tr>
             <% } %>
             <% exames.forEach((exame) => { %>
-              <tr>
+              <tr class="exams-table__row" data-exame="<%= JSON.stringify(exame) %>">
                 <td>
                   <p class="exams-table__name"><%= exame.paciente %></p>
                   <p class="exams-table__meta"><%= exame.idade %> anos • <%= exame.sexo %></p>
                 </td>
                 <td><%= exame.data %></td>
                 <td>
-                  <span class="chip<%= exame.status === 'Em revisão' ? ' chip--warning' : '' %>"><%= exame.status %></span>
+                  <span class="chip<%= exame.pendente ? ' chip--warning' : '' %>"><%= exame.status %></span>
                 </td>
                 <td>
                   <span class="pill"><%= exame.imagens %> <%= exame.imagens === 1 ? 'anexo' : 'anexos' %></span>
                 </td>
                 <td>
                   <div class="exams-table__actions">
-                    <a class="pill" href="#">Ver</a>
+                    <!-- O clique sobe até a linha, que abre o modal do exame -->
+                    <button class="pill" type="button">Ver</button>
                     <a class="pill" href="#">Editar</a>
                   </div>
                 </td>
@@ -150,5 +151,7 @@
   </main>
 
   <%- include('partials/new-exam-modal') %>
+  <%- include('partials/exam-view-modal') %>
+  <%- include('partials/error-modal') %>
 </body>
 </html>
