@@ -1,4 +1,5 @@
 import multer from "multer";
+import { renderInicio } from "../controller/ExameController.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -14,6 +15,6 @@ export default function Upload(req, res, next) {
       erro.code === "LIMIT_FILE_SIZE"
         ? "A imagem deve ter até 4 MB"
         : "Não foi posssivel receber a imagem.";
-    res.status(400).render("index", { usuario: req.session.user, erro: msg });
+    renderInicio(req, res, 400, { erro: msg });
   });
 }

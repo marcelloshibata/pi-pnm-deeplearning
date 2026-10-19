@@ -1050,3 +1050,56 @@ body {
     flex-wrap: wrap;
   }
 }
+
+/* Linhas da tabela abrem o modal de visualização do exame */
+.exams-table__row {
+  cursor: pointer;
+}
+
+.exams-table__row:hover td {
+  background: var(--dash-bg);
+}
+
+/* Modal de visualização do exame (reaproveita o layout do modal de novo exame) */
+.exam-view .exam-form__section-title {
+  margin-bottom: 0;
+}
+
+.exam-view__value {
+  overflow: hidden;
+  line-height: 42px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background: var(--dash-bg);
+}
+
+.exam-view__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 360px;
+  padding: 12px;
+  background: #0e1a24;
+  border-radius: 10px;
+}
+
+.exam-view__image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.exam-view__actions {
+  grid-template-columns: minmax(0, 364px);
+  justify-content: end;
+}
+
+@media (max-width: 800px) {
+  .exam-view__image {
+    height: 260px;
+  }
+
+  .exam-view__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

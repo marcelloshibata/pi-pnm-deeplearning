@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { cadastrar, authenticate } from "../controller/MedicoController.js";
+import { renderInicio } from "../controller/ExameController.js";
 import Auth from '../middleware/Auth.js';
 
 const route = Router();
@@ -21,7 +22,7 @@ route.post("/cadastro", cadastrar)
 route.post("/authenticate", authenticate)
 
 route.get("/inicio", Auth, (req, res) => {
-    res.render("index", { usuario: req.session.user });
+    renderInicio(req, res);
 })
 
 
