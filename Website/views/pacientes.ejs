@@ -1,0 +1,132 @@
+<%
+  // Dados que o backend vai enviar futuramente. Enquanto não existirem, a página renderiza vazia.
+  const pacientes = locals.pacientes || [];
+  const resumo = locals.resumo || {};
+  const totalPacientes = locals.totalPacientes || 0;
+%>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('partials/head', { title: 'DPRT | Pacientes' }) %>
+</head>
+<body class="dashboard-page">
+  <header class="navbar">
+    <nav class="navbar__links">
+      <a class="navbar__link--active" href="/pacientes" aria-current="page">Pacientes</a>
+      <a href="/exames">Exames</a>
+    </nav>
+
+    <a class="brand navbar__brand" href="/exames">
+      <span class="brand__icon">
+        <span class="navbar__logo"><img src="/imgs/lung-icon-blue.svg" alt="" width="19.7752" height="25.4075"></span>
+      </span>
+      <span class="brand__name">DPRT</span>
+    </a>
+
+    <div class="navbar__profile">
+      <button class="avatar" type="button" aria-label="Perfil<%= locals.usuario ? ' de ' + usuario.nome : '' %>">
+        <img src="/imgs/user-icon.svg" alt="" width="18" height="18">
+      </button>
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <div class="page-heading">
+      <h1 class="page-heading__title">Pacientes</h1>
+      <p class="card__subtitle">Gerencie cadastros e mantenha as informações de cada paciente atualizadas.</p>
+    </div>
+
+    <section class="summary-row">
+      <article class="summary-card">
+        <p class="summary-card__label">Pacientes cadastrados</p>
+        <p class="summary-card__value"><%= resumo.pacientes ?? 0 %></p>
+        <p class="summary-card__hint"><%= resumo.pacientesHint || '' %></p>
+      </article>
+      <article class="summary-card">
+        <p class="summary-card__label">Em acompanhamento</p>
+        <p class="summary-card__value"><%= resumo.acompanhamento ?? 0 %></p>
+        <p class="summary-card__hint"><%= resumo.acompanhamentoHint || '' %></p>
+      </article>
+      <article class="summary-card">
+        <p class="summary-card__label">Novos neste mês</p>
+        <p class="summary-card__value"><%= resumo.novos ?? 0 %></p>
+        <p class="summary-card__hint"><%= resumo.novosHint || '' %></p>
+      </article>
+    </section>
+
+    <button class="btn btn--primary dashboard__new-exam" type="button">+ Novo paciente</button>
+
+    <section class="card patients-card">
+      <div class="card__header">
+        <div>
+          <h2 class="card__title">Todos os pacientes</h2>
+          <p class="card__subtitle">Consulte os dados e o histórico de atendimento</p>
+        </div>
+        <div class="card__tools">
+          <label class="search-field">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" placeholder="Buscar por nome, CPF ou RG" aria-label="Buscar paciente">
+          </label>
+          <button class="pill pill--action" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"/></svg>
+            Filtros
+          </button>
+        </div>
+      </div>
+
+      <table class="exams-table">
+        <thead>
+          <tr>
+            <th scope="col">Paciente</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Contato</th>
+            <th scope="col">Cadastro</th>
+            <th scope="col">Status</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (pacientes.length === 0) { %>
+            <tr>
+              <td class="exams-table__empty" colspan="6">Nenhum paciente cadastrado ainda.</td>
+            </tr>
+          <% } %>
+          <% pacientes.forEach((paciente) => { %>
+            <tr class="exams-table__row">
+              <td>
+                <div class="patient-cell">
+                  <span class="patient-row__initials"><%= paciente.iniciais %></span>
+                  <div>
+                    <p class="exams-table__name"><%= paciente.nome %></p>
+                    <p class="exams-table__meta"><%= paciente.idade %> anos • <%= paciente.sexo %></p>
+                  </div>
+                </div>
+              </td>
+              <td><%= paciente.cpf %></td>
+              <td><%= paciente.contato %></td>
+              <td><%= paciente.cadastro %></td>
+              <td>
+                <span class="chip"><%= paciente.status %></span>
+              </td>
+              <td>
+                <div class="exams-table__actions">
+                  <a class="link-action" href="#">Ver</a>
+                  <a class="link-action" href="#">Editar</a>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <div class="card__footer">
+        <p class="card__subtitle">Mostrando <%= pacientes.length %> de <%= totalPacientes %> pacientes</p>
+        <div class="card__pagination">
+          <button class="pill pill--white" type="button" disabled>Anterior</button>
+          <button class="pill pill--white" type="button" disabled>Próxima</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

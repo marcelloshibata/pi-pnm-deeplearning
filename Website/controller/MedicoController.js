@@ -90,7 +90,7 @@ export function authenticate(req, res) {
             };
 
             // Se tudo deu certo, redireciona para o inicio
-            res.redirect("/inicio");
+            res.redirect("/exames");
         })
     }).catch(error => {
         console.log(`Erro na autenticação: ${error}`);
