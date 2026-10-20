@@ -1138,6 +1138,87 @@ body {
   }
 }
 
+/* Modal de cadastro de paciente (reaproveita a estrutura do modal de exame) */
+.patient-modal {
+  width: 900px;
+}
+
+.patient-modal__header {
+  align-items: center;
+}
+
+.patient-modal__icon {
+  display: flex;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  color: #367ca9;
+  background: var(--dash-chip);
+  border-radius: 12px;
+}
+
+.patient-modal__heading {
+  flex: 1;
+}
+
+.patient-modal__header .exam-modal__description {
+  padding-top: 2px;
+}
+
+.patient-modal .exam-modal__body {
+  gap: 20px;
+}
+
+.patient-form__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.patient-form__heading .exam-form__section-title,
+.patient-form__title {
+  margin-bottom: 0;
+}
+
+.patient-form__required {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--dash-muted);
+}
+
+.patient-form__row--name {
+  grid-template-columns: minmax(0, 364px) minmax(0, 224px);
+  justify-content: space-between;
+}
+
+.patient-form__row--street {
+  grid-template-columns: minmax(0, 144px) minmax(0, 1fr) minmax(0, 100px);
+}
+
+.patient-form__row--city {
+  grid-template-columns: minmax(0, 288fr) minmax(0, 288fr) minmax(0, 80fr) minmax(0, 140fr);
+}
+
+.patient-modal__actions {
+  grid-template-columns: auto minmax(0, 364px);
+  justify-content: end;
+}
+
+.patient-modal__actions .exam-modal__cancel {
+  padding: 0 24px;
+}
+
+@media (max-width: 800px) {
+  .patient-form__row--name,
+  .patient-form__row--street,
+  .patient-form__row--city,
+  .patient-modal__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Linhas da tabela abrem o modal de visualização do exame */
 .exams-table__row {
   cursor: pointer;
