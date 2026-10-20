@@ -54,7 +54,7 @@
       </article>
     </section>
 
-    <button class="btn btn--primary dashboard__new-exam" type="button">+ Novo paciente</button>
+    <button class="btn btn--primary dashboard__new-exam" type="button" data-open-patient-modal>+ Novo paciente</button>
 
     <section class="card patients-card">
       <div class="card__header">
@@ -128,5 +128,7 @@
       </div>
     </section>
   </main>
+
+  <%- include('partials/new-patient-modal') %>
 </body>
 </html>
