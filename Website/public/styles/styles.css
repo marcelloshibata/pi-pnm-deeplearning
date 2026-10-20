@@ -732,6 +732,93 @@ body {
   min-width: 0;
 }
 
+/* Página de pacientes */
+.navbar__link--active {
+  padding-bottom: 6px;
+  color: #0a7ac2;
+  border-bottom: 2px solid var(--blue);
+}
+
+.page-heading {
+  padding-bottom: 24px;
+}
+
+.page-heading__title {
+  padding-bottom: 4px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+}
+
+.patients-card {
+  margin-top: 24px;
+}
+
+.card__tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 260px;
+  padding: 10px 12px;
+  color: #0a7ac2;
+  background: #fff;
+  border: 1px solid var(--dash-line);
+  border-radius: 12px;
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.search-field input::placeholder {
+  color: var(--dash-muted);
+}
+
+.search-field:focus-within {
+  border-color: var(--blue);
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.link-action {
+  font-size: 12px;
+  line-height: 16px;
+  color: #0a7ac2;
+  text-decoration: none;
+}
+
+.link-action:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1100px) {
+  .patients-card {
+    overflow-x: auto;
+  }
+
+  .patients-card .exams-table {
+    min-width: 760px;
+  }
+}
+
 @media (max-width: 1100px) {
   .dashboard__main {
     grid-template-columns: minmax(0, 1fr);

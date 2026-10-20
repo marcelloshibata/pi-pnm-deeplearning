@@ -94,7 +94,7 @@ export function renderInicio(req, res, status = 200, extras = {}) {
       ]),
     )
     .then(([exames, totalExames]) => {
-      res.status(status).render("index", {
+      res.status(status).render("exames", {
         usuario: req.session.user,
         exames: exames.map(formatarExame),
         totalExames,
@@ -105,7 +105,7 @@ export function renderInicio(req, res, status = 200, extras = {}) {
     .catch((erro) => {
       // Se o banco falhar, ainda mostra a página (vazia) com o modal de erro
       console.log(`Erro ao carregar os exames: ${erro}`);
-      res.status(500).render("index", {
+      res.status(500).render("exames", {
         usuario: req.session.user,
         erro: "Não foi possível carregar os exames.",
         ...extras,
@@ -280,7 +280,7 @@ export function cadastrar(req, res) {
     })
   }).then(() => {
     // Volta para a página inicial, que já vai listar o exame novo e o total atualizado
-    res.redirect("/inicio");
+    res.redirect("/exames");
   }).catch(erro => {
     console.log(`Erro ao cadastrar exame: ${erro}`);
 

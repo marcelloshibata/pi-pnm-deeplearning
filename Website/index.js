@@ -8,6 +8,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import medicoRoutes from "./routes/MedicoRoutes.js";
 import exameRoutes from "./routes/ExameRoutes.js";
+import pacienteRoutes from "./routes/PacienteRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -53,6 +54,7 @@ app.use(
 
 app.use(medicoRoutes)
 app.use(exameRoutes)
+app.use(pacienteRoutes)
 
 // Na Vercel o app é exportado e a plataforma cuida do servidor
 if (!process.env.VERCEL) {

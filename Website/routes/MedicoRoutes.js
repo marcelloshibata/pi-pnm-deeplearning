@@ -5,8 +5,8 @@ import Auth from '../middleware/Auth.js';
 
 const route = Router();
 
-route.get("/", (req, res) => {
-    res.redirect("/login");
+route.get("/", Auth, (req, res) => {
+    res.redirect("/pacientes");
 });
 
 route.get("/login", (req, res) => {
@@ -21,7 +21,7 @@ route.post("/cadastro", cadastrar)
 
 route.post("/authenticate", authenticate)
 
-route.get("/inicio", Auth, (req, res) => {
+route.get("/exames", Auth, (req, res) => {
     renderInicio(req, res);
 })
 
