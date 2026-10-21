@@ -50,7 +50,21 @@
           </div>
         </div>
 
-        <div class="exam-form__row exam-form__row--2">
+        <div class="exam-form__row exam-form__row--3">
+          <div class="field">
+            <label class="field__label field__label--exam" for="paciente-sangue">Tipo sanguíneo *</label>
+            <select class="field__input field__input--exam field__input--select" id="paciente-sangue" name="tipoSanguineo" required>
+              <option value="" disabled selected hidden>Selecione</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+              <option>O+</option>
+              <option>O-</option>
+            </select>
+          </div>
           <div class="field">
             <label class="field__label field__label--exam" for="paciente-etnia">Cor ou raça (autodeclarada) *</label>
             <select class="field__input field__input--exam field__input--select" id="paciente-etnia" name="etnia" required>
@@ -131,7 +145,7 @@
     <div class="exam-modal__footer">
       <p class="exam-modal__privacy">
         <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
-        Dados protegidos e acesso restrito à equipe assistencial.
+        Dados protegidos e acesso restrito à equipe assistencial. 
       </p>
       <div class="exam-modal__actions patient-modal__actions">
         <button class="btn exam-modal__cancel" type="button" data-close-modal>Cancelar</button>

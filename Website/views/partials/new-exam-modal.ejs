@@ -14,65 +14,13 @@
       <fieldset class="exam-form__section">
         <legend class="exam-form__section-title">
           <img src="/imgs/user-round-icon.svg" alt="" width="18" height="18">
-          Dados do paciente
+          Paciente
         </legend>
 
-        <div class="exam-form__row exam-form__row--name">
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-nome">Nome</label>
-            <input class="field__input field__input--exam" type="text" id="paciente-nome" name="nome" placeholder="Mariana Oliveira" autocomplete="off" required autofocus>
-          </div>
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-idade">Idade</label>
-            <input class="field__input field__input--exam" type="number" id="paciente-idade" name="idade" placeholder="37" min="0" max="130" required>
-          </div>
-        </div>
-
-        <div class="exam-form__row exam-form__row--3">
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-sangue">Tipo sanguíneo</label>
-            <select class="field__input field__input--exam field__input--select" id="paciente-sangue" name="tipoSanguineo" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option>A+</option>
-              <option>A-</option>
-              <option>B+</option>
-              <option>B-</option>
-              <option>AB+</option>
-              <option>AB-</option>
-              <option>O+</option>
-              <option>O-</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-etnia">Etnia</label>
-            <select class="field__input field__input--exam field__input--select" id="paciente-etnia" name="etnia" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option>Branca</option>
-              <option>Preta</option>
-              <option>Parda</option>
-              <option>Amarela</option>
-              <option>Indígena</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-sexo">Sexo biológico</label>
-            <select class="field__input field__input--exam field__input--select" id="paciente-sexo" name="sexo" required>
-              <option value="" disabled selected hidden>Selecione</option>
-              <option>Feminino</option>
-              <option>Masculino</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="exam-form__row exam-form__row--2">
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-rg">RG</label>
-            <input class="field__input field__input--exam" type="text" id="paciente-rg" name="rg" placeholder="00.000.000-0" maxlength="12" pattern="\d{2}\.\d{3}\.\d{3}-[\dX]" title="Informe o RG completo no formato 00.000.000-0" autocomplete="off" required data-mask="rg">
-          </div>
-          <div class="field">
-            <label class="field__label field__label--exam" for="paciente-cpf">CPF</label>
-            <input class="field__input field__input--exam" type="text" id="paciente-cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Informe o CPF completo no formato 000.000.000-00" inputmode="numeric" autocomplete="off" required data-mask="cpf">
-          </div>
+        <div class="combobox" id="exame-paciente-combobox">
+          <input type="hidden" id="exame-paciente-id" name="pacienteId">
+          <input class="field__input field__input--exam field__input--select" type="text" id="exame-paciente" placeholder="Pesquisar paciente por nome ou CPF" aria-label="Paciente" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="exame-paciente-lista" autocomplete="off" required autofocus>
+          <ul class="combobox__list" id="exame-paciente-lista" role="listbox" hidden></ul>
         </div>
       </fieldset>
 
@@ -82,17 +30,9 @@
           Dados do exame
         </legend>
 
-        <div class="exam-form__row exam-form__row--2">
-          <div class="field">
-            <label class="field__label field__label--exam" for="exame-tipo">Tipo de exame</label>
-            <select class="field__input field__input--exam field__input--select" id="exame-tipo" name="tipoExame" required>
-              <option>RX de tórax</option>
-            </select>
-          </div>
-          <div class="field">
-            <label class="field__label field__label--exam" for="exame-data">Data do exame</label>
-            <input class="field__input field__input--exam field__input--date" type="date" id="exame-data" name="dataExame" required>
-          </div>
+        <div class="field">
+          <label class="field__label field__label--exam" for="exame-data">Data do exame</label>
+          <input class="field__input field__input--exam field__input--date" type="date" id="exame-data" name="dataExame" required>
         </div>
       </fieldset>
 
@@ -121,7 +61,7 @@
     <div class="exam-modal__footer">
       <p class="exam-modal__privacy">
         <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
-        Dados fictícios • Documentos mascarados
+        Dados protegidos e acesso restrito à equipe do hospital. 
       </p>
       <div class="exam-modal__actions">
         <button class="btn exam-modal__cancel" type="button" data-close-modal>Cancelar</button>
@@ -150,6 +90,9 @@
   // Ao fechar, limpa o formulário para o próximo cadastro
   examModal.addEventListener('close', () => {
     examForm.reset();
+    pacienteId.value = '';
+    pacienteInput.setCustomValidity('');
+    fecharLista();
     imageStatus.textContent = defaultImageStatus;
   });
 
@@ -158,54 +101,111 @@
     imageStatus.textContent = arquivo ? `Imagem selecionada: ${arquivo.name}` : defaultImageStatus;
   });
 
-  // Máscaras de RG e CPF: cada "0" do padrão recebe um caractere digitado
-  const mascaras = {
-    rg: {
-      padrao: '00.000.000-0',
-      // O dígito verificador do RG pode ser "X", então ele só é aceito na última posição
-      limpar: (valor) => {
-        let limpo = '';
-        for (const char of valor.toUpperCase()) {
-          if (limpo.length === 9) break;
-          if (/\d/.test(char) || (char === 'X' && limpo.length === 8)) limpo += char;
-        }
-        return limpo;
-      },
-    },
-    cpf: {
-      padrao: '000.000.000-00',
-      limpar: (valor) => valor.replace(/\D/g, '').slice(0, 11),
-    },
-  };
+  // Pesquisa de paciente: digita para filtrar os cadastrados e escolhe um da lista
+  const pacienteInput = document.getElementById('exame-paciente');
+  const pacienteId = document.getElementById('exame-paciente-id');
+  const pacienteLista = document.getElementById('exame-paciente-lista');
+  const mensagemSelecao = 'Selecione um paciente da lista.';
+  let opcaoAtiva = -1;
+  let temporizador;
+  let ultimaBusca = 0;
 
-  function aplicarMascara(valor, padrao) {
-    let formatado = '';
-    let i = 0;
-    for (const char of padrao) {
-      // Para antes de colocar um separador sem número depois dele
-      if (i >= valor.length) break;
-      formatado += char === '0' ? valor[i++] : char;
-    }
-    return formatado;
+  function fecharLista() {
+    pacienteLista.hidden = true;
+    pacienteInput.setAttribute('aria-expanded', 'false');
+    opcaoAtiva = -1;
   }
 
-  examModal.querySelectorAll('[data-mask]').forEach((input) => {
-    const { padrao, limpar } = mascaras[input.dataset.mask];
+  function marcarOpcao(indice) {
+    const opcoes = pacienteLista.querySelectorAll('[role="option"]');
+    opcoes.forEach((opcao, i) => opcao.classList.toggle('combobox__option--active', i === indice));
+    opcaoAtiva = indice;
+    if (opcoes[indice]) opcoes[indice].scrollIntoView({ block: 'nearest' });
+  }
 
-    input.addEventListener('input', () => {
-      // Guarda quantos caracteres válidos havia antes do cursor, para ele não pular para o fim ao editar no meio
-      const antesDoCursor = limpar(input.value.slice(0, input.selectionStart)).length;
-      const formatado = aplicarMascara(limpar(input.value), padrao);
-      input.value = formatado;
+  function escolherPaciente(paciente) {
+    pacienteId.value = paciente.id;
+    pacienteInput.value = paciente.nome;
+    pacienteInput.setCustomValidity('');
+    fecharLista();
+  }
 
-      let posicao = 0;
-      let contados = 0;
-      while (posicao < formatado.length && contados < antesDoCursor) {
-        if (/[\dX]/.test(formatado[posicao])) contados++;
-        posicao++;
-      }
-      input.setSelectionRange(posicao, posicao);
+  function mostrarPacientes(pacientes) {
+    pacienteLista.replaceChildren();
+
+    if (pacientes.length === 0) {
+      const vazio = document.createElement('li');
+      vazio.className = 'combobox__empty';
+      vazio.textContent = 'Nenhum paciente encontrado.';
+      pacienteLista.append(vazio);
+    }
+
+    pacientes.forEach((paciente) => {
+      const item = document.createElement('li');
+      item.className = 'combobox__option';
+      item.setAttribute('role', 'option');
+
+      const nome = document.createElement('span');
+      nome.className = 'combobox__name';
+      nome.textContent = paciente.nome;
+
+      const detalhes = document.createElement('span');
+      detalhes.className = 'combobox__meta';
+      detalhes.textContent = `${paciente.cpf} • ${paciente.idade} anos • ${paciente.sexo}`;
+
+      item.append(nome, detalhes);
+      // mousedown acontece antes do blur do campo, então o clique não se perde
+      item.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        escolherPaciente(paciente);
+      });
+      pacienteLista.append(item);
     });
+
+    pacienteLista.hidden = false;
+    pacienteInput.setAttribute('aria-expanded', 'true');
+    opcaoAtiva = -1;
+  }
+
+  function buscarPacientes() {
+    const busca = ++ultimaBusca;
+    fetch(`/pacientes/buscar?q=${encodeURIComponent(pacienteInput.value.trim())}`)
+      .then((resposta) => (resposta.ok ? resposta.json() : Promise.reject(resposta.status)))
+      .then((pacientes) => {
+        // Ignora respostas antigas que chegaram depois de uma busca mais nova
+        if (busca === ultimaBusca) mostrarPacientes(pacientes);
+      })
+      .catch(() => fecharLista());
+  }
+
+  pacienteInput.addEventListener('input', () => {
+    // Mudou o texto: o paciente escolhido antes deixa de valer
+    pacienteId.value = '';
+    pacienteInput.setCustomValidity(pacienteInput.value ? mensagemSelecao : '');
+    clearTimeout(temporizador);
+    temporizador = setTimeout(buscarPacientes, 250);
+  });
+
+  pacienteInput.addEventListener('focus', buscarPacientes);
+  pacienteInput.addEventListener('blur', fecharLista);
+
+  pacienteInput.addEventListener('keydown', (event) => {
+    const opcoes = pacienteLista.querySelectorAll('[role="option"]');
+    if (event.key === 'ArrowDown' && opcoes.length) {
+      event.preventDefault();
+      marcarOpcao((opcaoAtiva + 1) % opcoes.length);
+    } else if (event.key === 'ArrowUp' && opcoes.length) {
+      event.preventDefault();
+      marcarOpcao((opcaoAtiva - 1 + opcoes.length) % opcoes.length);
+    } else if (event.key === 'Enter' && opcaoAtiva >= 0) {
+      event.preventDefault();
+      opcoes[opcaoAtiva].dispatchEvent(new MouseEvent('mousedown', { cancelable: true }));
+    } else if (event.key === 'Escape' && !pacienteLista.hidden) {
+      // Fecha só a lista, sem fechar o modal
+      event.preventDefault();
+      event.stopPropagation();
+      fecharLista();
+    }
   });
 
   // Arrastar e soltar a imagem na área de upload

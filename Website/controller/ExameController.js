@@ -5,9 +5,6 @@ import { connection } from "../config/db.js";
 import Paciente from "../model/Paciente.js";
 import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
 
-// Remove tudo que não for número (ex.: "123.456.789-01" -> "12345678901")
-const soDigitos = (valor = "") => valor.replace(/\D/g, "");
-
 // Confere os primeiros bytes do arquivo, pois o mimetype enviado pelo navegador pode ser falso
 const ehPng = (b) =>
   b.length > 8 &&
@@ -194,35 +191,18 @@ export function analisar(req, res) {
     });
 }
 
-// Recebe o formulário do modal "Novo exame": cria o paciente, salva a imagem e cria o exame
+// Recebe o formulário do modal "Novo exame": vincula um paciente já cadastrado, salva a imagem e cria o exame
 // req.body e req.file são preenchidos pelo middleware Upload (multer)
 export function cadastrar(req, res) {
-  const nome_paciente = req.body.nome;
-  const idade_paciente = Number(req.body.idade);
-  const tipo_sanguineo = req.body.tipoSanguineo;
-  const etnia = req.body.etnia;
-  const sexo = req.body.sexo;
-  const rg = req.body.rg;
-  const cpf = soDigitos(req.body.cpf);
+  const pacienteId = req.body.pacienteId;
   const dataExame = req.body.dataExame;
   const medicoId = req.session.user.id;
 
   // Validações antes de mexer no banco
-  if (
-    !nome_paciente ||
-    !idade_paciente ||
-    !tipo_sanguineo ||
-    !etnia ||
-    !sexo ||
-    !rg ||
-    !cpf ||
-    !dataExame
-  )
-    return error(req, res, 400, "Preencha todos os campos.");
-  if (cpf.length !== 11) return error(req, res, 400, "CPF inválido.");
-
-  if (!Number.isInteger(idade_paciente) || idade_paciente < 0 || idade_paciente > 130)
-    return error(req, res, 400, "Idade inválida.");
+  if (!pacienteId || !dataExame)
+    return error(req, res, 400, "Selecione um paciente e informe a data do exame.");
+  if (!mongoose.isValidObjectId(pacienteId))
+    return error(req, res, 400, "Paciente inválido.");
 
   if (!req.file) return error(req, res, 400, "Anexe uma imagem PNG ou JPG.");
 
@@ -237,26 +217,20 @@ export function cadastrar(req, res) {
   if (!contentType)
     return error(req, res, 400, "A imagem deve ser PNG ou JPG.");
 
-  // Guardam o que já foi criado, para poder desfazer se algum passo seguinte falhar
-  let pacienteId = null;
+  // Guarda o que já foi criado, para poder desfazer se algum passo seguinte falhar
   let imagemId = null;
 
   connection().then(() => {
-    // PASSO 1: criar o paciente
-    return Paciente.create({
-        nome_paciente: nome_paciente.trim(),
-        idade_paciente: idade_paciente,
-        tipo_sanguineo: tipo_sanguineo,
-        etnia_paciente: etnia,
-        sexo_biologico: sexo,
-        rg_paciente: rg,
-        cpf_paciente: cpf,
-        cadastrado_por: medicoId
-    });
+    // PASSO 1: confirma que o paciente existe e pertence ao médico logado
+    return Paciente.exists({ _id: pacienteId, cadastrado_por: medicoId });
   }).then(paciente => {
-    pacienteId = paciente._id;
+    if (!paciente) {
+      const naoEncontrado = new Error("Paciente não encontrado");
+      naoEncontrado.name = "PacienteNaoEncontrado";
+      throw naoEncontrado;
+    }
 
-    // 2 PASSO: salva a radiografia no GridFS e recebe o id do arquivo
+    // PASSO 2: salva a radiografia no GridFS e recebe o id do arquivo
     return salvarImagem(buffer, {
         nome: req.file.originalname,
         contentType: contentType,
@@ -265,11 +239,10 @@ export function cadastrar(req, res) {
   }).then(id => {
     imagemId = id;
 
-    // 3 PASSO: cria o exame ligando o médico, o paciente e a imagem
+    // PASSO 3: cria o exame ligando o médico, o paciente e a imagem
     return Exame.create({
         medicoId: medicoId,
         pacienteId: pacienteId,
-        tipo_exame: req.body.tipoExame,
         // Meio-dia evita que a conversão de fuso horário jogue a data para o dia anterior
         data_hora_exame: new Date(`${dataExame}T12:00:00`),
         imagem_exame: {
@@ -284,16 +257,14 @@ export function cadastrar(req, res) {
   }).catch(erro => {
     console.log(`Erro ao cadastrar exame: ${erro}`);
 
-    // Desfaz o que já foi criado, para não sobrar imagem ou paciente sem exame
+    // Desfaz a imagem já salva, para não sobrar arquivo sem exame
     const limpezas = [];
     if (imagemId) limpezas.push(removerImagem(imagemId));
-    if (pacienteId) limpezas.push(Paciente.findByIdAndDelete(pacienteId));
 
     // allSettled espera todas as limpezas, mesmo que alguma delas falhe
     return Promise.allSettled(limpezas).then(() => {
-         // 11000 é o código do MongoDB para valor duplicado em campo único
-         if (erro.code === 11000) {
-            return error(req, res, 409, "Já existe um paciente cadastrado com este CPF.");
+        if (erro.name === "PacienteNaoEncontrado") {
+            return error(req, res, 404, "Paciente não encontrado.");
         }
         // Algum campo não passou nas regras do schema do Mongoose
         if (erro.name === "ValidationError") {
