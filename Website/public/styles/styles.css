@@ -428,6 +428,7 @@ body {
 
 .navbar__links {
   display: flex;
+  justify-content: center;
   gap: 28px;
   font-size: 14px;
   font-weight: 500;
@@ -1004,6 +1005,62 @@ body {
   padding: 0;
   background: url('../imgs/calendar-days-icon.svg') center / 16px 16px no-repeat;
   cursor: pointer;
+}
+
+/* Campo de pesquisa de paciente (lista de resultados abaixo do campo) */
+.combobox {
+  position: relative;
+}
+
+.combobox .field__input--exam {
+  width: 100%;
+}
+
+.combobox__list {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  max-height: 260px;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--dash-line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(16, 45, 73, 0.16);
+}
+
+.combobox__option {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.combobox__option:hover,
+.combobox__option--active {
+  background: var(--dash-chip);
+}
+
+.combobox__name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.combobox__meta,
+.combobox__empty {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dash-muted);
+}
+
+.combobox__empty {
+  padding: 8px 10px;
 }
 
 /* Área de upload */
