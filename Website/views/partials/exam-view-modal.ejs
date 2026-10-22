@@ -1,7 +1,8 @@
 <dialog class="error-modal exam-modal exam-view" id="exam-view-modal" aria-labelledby="exam-view-modal-title" aria-describedby="exam-view-modal-description">
-  <!-- Os campos são somente leitura: o formulário só serve para enviar os dados do exame para análise -->
+  <!-- Os valores são só exibidos: o formulário só serve para enviar o exame para análise -->
   <form class="exam-form" action="/exames/analisar" method="post">
     <input type="hidden" name="id">
+    <input type="hidden" name="paciente">
 
     <div class="exam-modal__header">
       <div>
@@ -22,38 +23,38 @@
 
         <div class="exam-form__row exam-form__row--name">
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-paciente">Nome</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-paciente" name="paciente" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Nome</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="paciente">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-idade">Idade</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-idade" name="idade" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Idade</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="idade">—</output>
           </div>
         </div>
 
         <div class="exam-form__row exam-form__row--3">
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-tipo-sanguineo">Tipo sanguíneo</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-tipo-sanguineo" name="tipoSanguineo" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Tipo sanguíneo</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="tipoSanguineo">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-etnia">Etnia</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-etnia" name="etnia" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Etnia</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="etnia">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-sexo">Sexo biológico</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-sexo" name="sexo" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Sexo biológico</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="sexo">—</output>
           </div>
         </div>
 
         <div class="exam-form__row exam-form__row--2">
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-rg">RG</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-rg" name="rg" placeholder="—" readonly>
+            <span class="field__label field__label--exam">RG</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="rg">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-cpf">CPF</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-cpf" name="cpf" placeholder="—" readonly>
+            <span class="field__label field__label--exam">CPF</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="cpf">—</output>
           </div>
         </div>
       </fieldset>
@@ -66,16 +67,16 @@
 
         <div class="exam-form__row exam-form__row--3">
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-tipo-exame">Tipo de exame</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-tipo-exame" name="tipoExame" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Tipo de exame</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="tipoExame">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-data">Data do exame</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-data" name="data" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Data do exame</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="data">—</output>
           </div>
           <div class="field">
-            <label class="field__label field__label--exam" for="exam-view-status">Status</label>
-            <input class="field__input field__input--exam exam-view__value" type="text" id="exam-view-status" name="status" placeholder="—" readonly>
+            <span class="field__label field__label--exam">Status</span>
+            <output class="field__input field__input--exam exam-view__value" data-campo="status">—</output>
           </div>
         </div>
       </fieldset>
@@ -119,11 +120,11 @@
   const analysisAlert = document.getElementById('analysis-alert');
 
   function abrirExame(exame) {
-    // O alerta da análise só aparece no modal do exame que foi analisado
     if (analysisAlert) analysisAlert.hidden = analysisAlert.dataset.exameId !== exame.id;
-    // O "name" de cada campo é a mesma chave do objeto do exame (ex.: name="cpf" -> exame.cpf)
-    examViewForm.querySelectorAll('input[name]').forEach((campo) => {
-      campo.value = exame[campo.name] ?? '';
+    examViewForm.elements.id.value = exame.id;
+    examViewForm.elements.paciente.value = exame.paciente;
+    examViewForm.querySelectorAll('[data-campo]').forEach((campo) => {
+      campo.textContent = exame[campo.dataset.campo] || '—';
     });
     examViewImageNome.textContent = exame.imagemNome ?? '—';
     examViewImage.src = exame.imagemUrl;
@@ -131,16 +132,13 @@
     examViewModal.showModal();
   }
 
-  // Cada linha da tabela guarda os dados do exame em data-exame
   document.querySelectorAll('[data-exame]').forEach((linha) => {
     const exame = JSON.parse(linha.dataset.exame);
     linha.addEventListener('click', (event) => {
-      // Links da linha (ex.: Editar) seguem o próprio destino
       if (event.target.closest('a')) return;
       abrirExame(exame);
     });
 
-    // Depois da análise, reabre o modal do exame analisado para mostrar o resultado
     if (analysisAlert && analysisAlert.dataset.exameId === exame.id) abrirExame(exame);
   });
 
@@ -148,11 +146,8 @@
     button.addEventListener('click', () => examViewModal.close());
   });
 
-  // Fecha ao clicar fora do modal (no backdrop)
   examViewModal.addEventListener('click', (event) => {
     if (event.target === examViewModal) examViewModal.close();
   });
-
-  // Remove a imagem ao fechar, para não aparecer a radiografia anterior ao abrir outro exame
   examViewModal.addEventListener('close', () => examViewImage.removeAttribute('src'));
 </script>
