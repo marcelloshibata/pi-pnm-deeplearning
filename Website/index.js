@@ -34,6 +34,16 @@ db.then(() => {
   console.log(`Ocorreu um erro ao conectar no banco. Erro: ${error}`);
 });
 
+// Garante a conexão com o banco antes das rotas, assim os controllers usam os models direto
+app.use(async (req, res, next) => {
+  try {
+    await connection();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

@@ -108,8 +108,7 @@
                 </td>
                 <td>
                   <div class="exams-table__actions">
-                    <!-- O clique sobe até a linha, que abre o modal do exame -->
-                    <button class="pill" type="button">Ver</button>
+                    <button class="pill" type="button" data-open-report-modal>Registrar relatório</button>
                     <a class="pill" href="#">Editar</a>
                   </div>
                 </td>
@@ -157,6 +156,7 @@
 
   <%- include('partials/new-exam-modal') %>
   <%- include('partials/exam-view-modal') %>
+  <%- include('partials/report-modal') %>
   <%- include('partials/error-modal') %>
 </body>
 </html>

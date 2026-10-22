@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Exame from "../model/Exame.js";
 import { pipeline } from "node:stream/promises";
-import { connection } from "../config/db.js";
 import Paciente from "../model/Paciente.js";
 import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
 
@@ -76,20 +75,17 @@ function formatarExame(exame) {
 export function renderInicio(req, res, status = 200, extras = {}) {
   const medicoId = req.session.user.id;
 
-  return connection()
-    .then(() =>
-      // As duas consultas rodam ao mesmo tempo
-      Promise.all([
-        // Exames mais recentes do médico, já trazendo os dados do paciente junto
-        Exame.find({ medicoId })
-          .sort({ createdAt: -1 })
-          .limit(LIMITE_RECENTES)
-          .populate("pacienteId")
-          .lean(), // objeto JS simples, mais leve que um documento do Mongoose
-        // Total de exames do médico, usado no card "Exames cadastrados"
-        Exame.countDocuments({ medicoId }),
-      ]),
-    )
+  // As duas consultas rodam ao mesmo tempo
+  return Promise.all([
+    // Exames mais recentes do médico, já trazendo os dados do paciente junto
+    Exame.find({ medicoId })
+      .sort({ createdAt: -1 })
+      .limit(LIMITE_RECENTES)
+      .populate("pacienteId")
+      .lean(), // objeto JS simples, mais leve que um documento do Mongoose
+    // Total de exames do médico, usado no card "Exames cadastrados"
+    Exame.countDocuments({ medicoId }),
+  ])
     .then(([exames, totalExames]) => {
       res.status(status).render("exames", {
         usuario: req.session.user,
@@ -120,11 +116,9 @@ export function imagem(req, res) {
   // Um id em formato inválido faria a consulta falhar, então já responde "não encontrado"
   if (!mongoose.isValidObjectId(id)) return res.sendStatus(404);
 
-  connection()
-    .then(() =>
-      // Filtrar também pelo medicoId impede que um médico veja a imagem do exame de outro
-      Exame.findOne({ _id: id, medicoId: req.session.user.id }).lean(),
-    )
+  // Filtrar também pelo medicoId impede que um médico veja a imagem do exame de outro
+  Exame.findOne({ _id: id, medicoId: req.session.user.id })
+    .lean()
     .then((exame) => {
       if (!exame) return res.sendStatus(404);
 
@@ -166,13 +160,10 @@ export function analisar(req, res) {
 
   const proba = Math.random();
 
-  connection()
-    .then(() =>
-      Exame.findOneAndUpdate(
-        { _id: dados.id, medicoId: req.session.user.id },
-        { probabilidade_pnm: proba },
-      ),
-    )
+  Exame.findOneAndUpdate(
+    { _id: dados.id, medicoId: req.session.user.id },
+    { probabilidade_pnm: proba },
+  )
     .then((exame) => {
       if (!exame) return error(req, res, 404, "Exame não encontrado.");
 
@@ -190,6 +181,36 @@ export function analisar(req, res) {
       return error(req, res, 500, "Erro interno ao analisar o exame.");
     });
 }
+
+// Recebe o formulário do modal "Registrar relatório": grava o parecer final e conclui o exame
+export function registrarRelatorio(req, res) {
+  const id = req.body.id;
+  const dataRelatorio = req.body.dataRelatorio;
+  const parecer_final = req.body.parecer;
+  let diagnostico;
+
+  if (req.body.diagnostico === "sim") {
+    diagnostico = true;
+  } else {
+    diagnostico = false;
+  }
+  
+  Exame.findOneAndUpdate(
+    {_id: id, medicoId: req.session.user.id},
+    {
+      status_exame: "CONCLUIDO",
+      relatorio: {
+        diagnostico_confirmado: diagnostico,
+        parecer_final: parecer_final,
+        data_relatorio: new Date(`${dataRelatorio}T12:00:00`)
+      }
+    }
+  ).then(() => {
+    res.redirect("/exames");
+  })
+}
+
+
 
 // Recebe o formulário do modal "Novo exame": vincula um paciente já cadastrado, salva a imagem e cria o exame
 // req.body e req.file são preenchidos pelo middleware Upload (multer)
@@ -220,10 +241,8 @@ export function cadastrar(req, res) {
   // Guarda o que já foi criado, para poder desfazer se algum passo seguinte falhar
   let imagemId = null;
 
-  connection().then(() => {
-    // PASSO 1: confirma que o paciente existe e pertence ao médico logado
-    return Paciente.exists({ _id: pacienteId, cadastrado_por: medicoId });
-  }).then(paciente => {
+  // PASSO 1: confirma que o paciente existe e pertence ao médico logado
+  Paciente.exists({ _id: pacienteId, cadastrado_por: medicoId }).then(paciente => {
     if (!paciente) {
       const naoEncontrado = new Error("Paciente não encontrado");
       naoEncontrado.name = "PacienteNaoEncontrado";

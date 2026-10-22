@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cadastrar, imagem, analisar } from "../controller/ExameController.js";
+import { cadastrar, imagem, analisar, registrarRelatorio } from "../controller/ExameController.js";
 import Auth from "../middleware/Auth.js";
 import Upload from "../middleware/Upload.js";
 
@@ -12,5 +12,7 @@ route.get("/exames/:id/imagem", Auth, imagem);
 
 // Recebe os dados do modal de visualização do exame (formulário urlencoded)
 route.post("/exames/analisar", Auth, analisar);
+
+route.post("/exames/relatorio", Auth, registrarRelatorio);
 
 export default route;
