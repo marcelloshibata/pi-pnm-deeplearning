@@ -67,6 +67,23 @@ function formatarExame(exame) {
     imagens: exame.imagem_exame?.arquivoId ? 1 : 0,
     imagemUrl: `/exames/${id}/imagem`,
     imagemNome: exame.imagem_exame?.nomeOriginal,
+    // Só existe depois de "Analisar exame": o modal mostra o alerta e trava o botão enquanto isso estiver preenchido
+    analise:
+      exame.probabilidade_pnm == null
+        ? null
+        : {
+            mensagem: `Probabilidade de pneumonia de ${paciente.nome_paciente}: ${formatarPorcentagem(exame.probabilidade_pnm)}.`,
+            nivel: nivelDeRisco(exame.probabilidade_pnm),
+          },
+
+    relatorio: exame.relatorio?.parecer_final
+          ? {
+            diagnostico: exame.relatorio.diagnostico_confirmado,
+            parecer: exame.relatorio.parecer_final,
+            // YYYY-MM-DD, formato do <input type="date"> do modal (gravada às 12h, então o dia não muda em UTC)
+            data_relatorio: exame.relatorio.data_relatorio?.toISOString().slice(0, 10),
+          }
+          : null,
   };
 }
 
@@ -139,42 +156,21 @@ export function imagem(req, res) {
     });
 }
 
-// Recebe os dados enviados pelo modal de visualização do exame
-// Os nomes são os mesmos do "name" de cada campo do formulário (iguais às chaves de formatarExame)
+// Recebe o id do exame no modal de visualização e grava a probabilidade de pneumonia
 export function analisar(req, res) {
-  const dados = {
-    id: req.body.id,
-    // Dados do paciente
-    paciente: req.body.paciente,
-    idade: Number(req.body.idade),
-    tipoSanguineo: req.body.tipoSanguineo,
-    etnia: req.body.etnia,
-    sexo: req.body.sexo,
-    rg: req.body.rg,
-    cpf: req.body.cpf,
-    // Dados do exame
-    tipoExame: req.body.tipoExame,
-    data: req.body.data,
-    status: req.body.status,
-  };
-
+  const id = req.body.id;
   const proba = Math.random();
 
+  // Só analisa exames que ainda não têm probabilidade (probabilidade_pnm: null também casa com o campo ausente)
   Exame.findOneAndUpdate(
-    { _id: dados.id, medicoId: req.session.user.id },
+    { _id: id, medicoId: req.session.user.id, probabilidade_pnm: null },
     { probabilidade_pnm: proba },
   )
     .then((exame) => {
-      if (!exame) return error(req, res, 404, "Exame não encontrado.");
+      if (!exame) return error(req, res, 404, "Exame não encontrado ou já analisado.");
 
-      // Volta para a página inicial e reabre o modal do exame com o alerta da probabilidade
-      return renderInicio(req, res, 200, {
-        analise: {
-          exameId: dados.id,
-          mensagem: `Probabilidade de pneumonia de ${dados.paciente}: ${formatarPorcentagem(proba)}.`,
-          nivel: nivelDeRisco(proba),
-        },
-      });
+      // Volta para a página inicial e reabre o modal do exame, que já vem com o alerta da probabilidade
+      return renderInicio(req, res, 200, { exameAnalisadoId: id });
     })
     .catch((erro) => {
       console.log(`Erro ao analisar o exame: ${erro}`);
