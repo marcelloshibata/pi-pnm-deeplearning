@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Paciente from "../model/Paciente.js";
 import Exame from "../model/Exame.js";
-import { connection } from "../config/db.js";
 
 const soDigitos = (valor = "") => valor.replace(/\D/g, "");
 
@@ -40,10 +39,10 @@ export function buscar(req, res) {
     filtro.$or = criterios;
   }
 
-  connection()
-    .then(() =>
-      Paciente.find(filtro).sort({ nome_paciente: 1 }).limit(LIMITE_BUSCA).lean(),
-    )
+  Paciente.find(filtro)
+    .sort({ nome_paciente: 1 })
+    .limit(LIMITE_BUSCA)
+    .lean()
     .then((pacientes) => {
       res.json(
         pacientes.map((p) => ({
@@ -93,19 +92,16 @@ export function renderPacientes(req, res, status = 200, extras = {}) {
   const inicioDoMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
   const mes = agora.toLocaleDateString("pt-BR", { month: "long", timeZone: "America/Sao_Paulo" });
 
-  return connection()
-    .then(() =>
-      Promise.all([
-        Paciente.find({ cadastrado_por: medicoId })
-          .sort({ createdAt: -1 })
-          .limit(LIMITE_LISTA)
-          .lean(),
-        Paciente.countDocuments({ cadastrado_por: medicoId }),
-        Paciente.countDocuments({ cadastrado_por: medicoId, createdAt: { $gte: inicioDoMes } }),
-        // Pacientes com algum exame ainda sem resultado
-        Exame.distinct("pacienteId", { medicoId, status_exame: "PENDENTE_TRIAGEM" }),
-      ]),
-    )
+  return Promise.all([
+    Paciente.find({ cadastrado_por: medicoId })
+      .sort({ createdAt: -1 })
+      .limit(LIMITE_LISTA)
+      .lean(),
+    Paciente.countDocuments({ cadastrado_por: medicoId }),
+    Paciente.countDocuments({ cadastrado_por: medicoId, createdAt: { $gte: inicioDoMes } }),
+    // Pacientes com algum exame ainda sem resultado
+    Exame.distinct("pacienteId", { medicoId, status_exame: "PENDENTE_TRIAGEM" }),
+  ])
     .then(([pacientes, totalPacientes, novos, emAcompanhamento]) => {
       res.status(status).render("pacientes", {
         usuario: req.session.user,
@@ -164,9 +160,7 @@ export function cadastrar(req, res) {
     if (idade === null || idade > 130) return erro(400, "Data de nascimento inválida.");
     if (cpf.length !== 11) return erro(400, "CPF inválido.");
 
-    connection().then(() =>
-        Paciente.findOne({ cpf_paciente: cpf, cadastrado_por: usuario.id })
-    ).then((existente) => {
+    Paciente.findOne({ cpf_paciente: cpf, cadastrado_por: usuario.id }).then((existente) => {
         if (existente) return erro(409, "Paciente já cadastrado.");
 
         return Paciente.create({

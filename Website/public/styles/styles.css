@@ -1374,3 +1374,133 @@ body {
 .alert__close:hover {
   opacity: 1;
 }
+
+/* Modal de relatório médico (reaproveita a estrutura do modal de exame) */
+.report-modal .exam-modal__body {
+  gap: 20px;
+}
+
+.report-form__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: var(--dash-bg);
+  border: 1px solid var(--dash-line);
+  border-radius: 10px;
+}
+
+.report-form__summary-end {
+  text-align: right;
+}
+
+.report-form__summary-label {
+  font-size: 12px;
+  color: var(--dash-muted);
+}
+
+.report-form__summary-value {
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.report-form__summary-value--name {
+  font-weight: 700;
+}
+
+.report-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 264px;
+  gap: 24px;
+}
+
+.report-form__diagnosis {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  border: 0;
+}
+
+.report-form__legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.report-form__choices {
+  display: flex;
+  gap: 12px;
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 112px;
+  height: 46px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fff;
+  border: 1px solid var(--dash-line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* O radio nativo fica escondido, mas continua focável pelo teclado */
+.choice__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice__mark {
+  width: 18px;
+  height: 18px;
+  background: url('../imgs/selecao-icon.svg') center / 18px 18px no-repeat;
+}
+
+.choice__input:checked + .choice__mark {
+  background-image: radial-gradient(circle, var(--blue) 0 4px, transparent 5px), url('../imgs/selecao-icon.svg');
+}
+
+.choice:has(.choice__input:checked) {
+  border-color: var(--blue);
+}
+
+.choice:has(.choice__input:focus-visible) {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.report-form__hint {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dash-muted);
+}
+
+.report-form__hint--icon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.report-form__textarea {
+  height: 310px;
+  padding: 12px 16px;
+  line-height: 22px;
+  resize: none;
+}
+
+@media (max-width: 800px) {
+  .report-form__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

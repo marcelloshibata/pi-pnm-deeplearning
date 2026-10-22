@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 
-const relatorioSchema = new mongoose.Schema(
-  {
-    diagnostico_confirmado: Boolean,
-    parecer_final: String,
-    data_relatorio: Date,
-  },
-  { _id: false },
-);
-
 const exameSchema = new mongoose.Schema(
   {
     medicoId: {
@@ -36,7 +27,11 @@ const exameSchema = new mongoose.Schema(
       default: "PENDENTE_TRIAGEM",
     },
     probabilidade_pnm: Number,
-    relatorio: relatorioSchema,
+    relatorio: {
+      diagnostico_confirmado: Boolean,
+      parecer_final: String,
+      data_relatorio: Date
+    },
   },
   { timestamps: true },
 );
