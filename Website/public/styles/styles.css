@@ -585,6 +585,11 @@ body {
   cursor: pointer;
 }
 
+.exam-modal__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .pill:disabled {
   cursor: default;
 }

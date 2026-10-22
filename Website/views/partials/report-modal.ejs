@@ -86,7 +86,9 @@
   const reportModal = document.getElementById('report-modal');
   const reportForm = reportModal.querySelector('.exam-form');
   const reportData = document.getElementById('report-data');
-
+  const reportParecer = document.getElementById('report-parecer');
+  const reportTitle = document.getElementById('report-modal-title');
+  const reportSubmit = reportModal.querySelector('.exam-modal__submit');
   // Data local no formato YYYY-MM-DD (toISOString usaria UTC e poderia adiantar o dia)
   const hojeIso = () => new Date().toLocaleDateString('en-CA');
 
@@ -94,8 +96,24 @@
     reportForm.elements.id.value = exame.id;
     document.getElementById('report-paciente').textContent = exame.paciente ?? '—';
     document.getElementById('report-exame').textContent = `${exame.tipoExame} • ${exame.data}`;
-    reportData.max = hojeIso();
-    reportData.value = hojeIso();
+
+    const { relatorio } = exame;
+    const somenteLeitura = relatorio !== null;
+
+    reportTitle.textContent = somenteLeitura ? 'Relatório médico' : 'Cadastrar relatório médico';
+    reportSubmit.hidden = somenteLeitura;
+    reportForm.querySelectorAll('input:not([name="id"]), textarea').forEach((campo) => {
+      campo.disabled = somenteLeitura;
+    });
+
+    if (somenteLeitura) {
+      reportForm.elements.diagnostico.value = relatorio.diagnostico ? 'sim' : 'nao';
+      reportData.value = relatorio.data_relatorio;
+      reportParecer.value = relatorio.parecer;
+    } else {
+      reportData.max = hojeIso();
+      reportData.value = hojeIso();
+    }
     reportModal.showModal();
   }
 

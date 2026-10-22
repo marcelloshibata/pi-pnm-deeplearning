@@ -1,8 +1,6 @@
 <dialog class="error-modal exam-modal exam-view" id="exam-view-modal" aria-labelledby="exam-view-modal-title" aria-describedby="exam-view-modal-description">
-  <!-- Os valores são só exibidos: o formulário só serve para enviar o exame para análise -->
   <form class="exam-form" action="/exames/analisar" method="post">
     <input type="hidden" name="id">
-    <input type="hidden" name="paciente">
 
     <div class="exam-modal__header">
       <div>
@@ -104,7 +102,7 @@
       </p>
       <div class="exam-modal__actions">
         <button class="btn exam-modal__cancel" type="button" data-close-modal>Fechar</button>
-        <button class="btn btn--primary exam-modal__submit" type="submit">Analisar exame</button>
+        <button class="btn btn--primary exam-modal__submit" id="exam-view-submit" type="submit">Analisar exame</button>
       </div>
     </div>
   </form>
@@ -116,13 +114,21 @@
   const examViewImage = document.getElementById('exam-view-image');
   const examViewImageLink = document.getElementById('exam-view-image-link');
   const examViewImageNome = document.getElementById('exam-view-image-nome');
-  // Só existe quando a página voltou da rota /exames/analisar
+  const examViewSubmit = document.getElementById('exam-view-submit');
   const analysisAlert = document.getElementById('analysis-alert');
+  // Preenchido quando a página volta da rota /exames/analisar, para reabrir o exame analisado
+  const exameAnalisadoId = '<%= locals.exameAnalisadoId || "" %>';
 
   function abrirExame(exame) {
-    if (analysisAlert) analysisAlert.hidden = analysisAlert.dataset.exameId !== exame.id;
+    // Com a análise registrada, o alerta fica sempre visível e o exame não pode ser analisado de novo
+    const { analise } = exame;
+    analysisAlert.hidden = !analise;
+    examViewSubmit.disabled = Boolean(analise);
+    if (analise) {
+      analysisAlert.className = `alert alert--${analise.nivel}`;
+      analysisAlert.querySelector('.alert__message').textContent = analise.mensagem;
+    }
     examViewForm.elements.id.value = exame.id;
-    examViewForm.elements.paciente.value = exame.paciente;
     examViewForm.querySelectorAll('[data-campo]').forEach((campo) => {
       campo.textContent = exame[campo.dataset.campo] || '—';
     });
@@ -139,7 +145,7 @@
       abrirExame(exame);
     });
 
-    if (analysisAlert && analysisAlert.dataset.exameId === exame.id) abrirExame(exame);
+    if (exameAnalisadoId === exame.id) abrirExame(exame);
   });
 
   examViewModal.querySelectorAll('[data-close-modal]').forEach((button) => {

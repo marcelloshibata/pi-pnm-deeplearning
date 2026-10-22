@@ -1,5 +1,4 @@
 <%
-  // Dados que o backend vai enviar futuramente. Enquanto não existirem, a página renderiza vazia.
   const exames = locals.exames || [];
   const pacientes = locals.pacientes || [];
   const resumo = locals.resumo || {};
@@ -108,7 +107,9 @@
                 </td>
                 <td>
                   <div class="exams-table__actions">
-                    <button class="pill" type="button" data-open-report-modal>Registrar relatório</button>
+                    <button class="pill" type="button" data-open-report-modal>
+                      <%= exame.relatorio ? 'Visualizar relatório' : 'Registrar relatório' %>
+                    </button>
                     <a class="pill" href="#">Editar</a>
                   </div>
                 </td>
