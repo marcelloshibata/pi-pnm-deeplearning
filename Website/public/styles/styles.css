@@ -517,7 +517,7 @@ body {
 
 .dashboard__main {
   display: grid;
-  grid-template-columns: minmax(0, 913px) minmax(0, 430px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 24px;
   margin-top: 24px;
@@ -635,11 +635,11 @@ body {
 }
 
 .exams-table__col--patient {
-  width: 216px;
+  width: 30%;
 }
 
 .exams-table__col {
-  width: 132px;
+  width: 25%;
 }
 
 .exams-table th,

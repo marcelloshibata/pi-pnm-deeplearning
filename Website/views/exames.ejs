@@ -63,16 +63,11 @@
             <h2 class="card__title">Exames recentes</h2>
             <p class="card__subtitle">Resumo dos exames cadastrados com imagens anexadas</p>
           </div>
-          <button class="pill pill--action" type="button">
-            <img src="/imgs/download-icon.svg" alt="" width="16" height="16">
-            Exportar
-          </button>
         </div>
 
         <table class="exams-table">
           <colgroup>
             <col class="exams-table__col--patient">
-            <col class="exams-table__col">
             <col class="exams-table__col">
             <col class="exams-table__col">
             <col>
@@ -82,14 +77,13 @@
               <th scope="col">Paciente</th>
               <th scope="col">Data</th>
               <th scope="col">Status</th>
-              <th scope="col">Imagens</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
             <% if (exames.length === 0) { %>
               <tr>
-                <td class="exams-table__empty" colspan="5">Nenhum exame cadastrado ainda.</td>
+                <td class="exams-table__empty" colspan="4">Nenhum exame cadastrado ainda.</td>
               </tr>
             <% } %>
             <% exames.forEach((exame) => { %>
@@ -103,12 +97,9 @@
                   <span class="chip<%= exame.pendente ? ' chip--warning' : '' %>"><%= exame.status %></span>
                 </td>
                 <td>
-                  <span class="pill"><%= exame.imagens %> <%= exame.imagens === 1 ? 'anexo' : 'anexos' %></span>
-                </td>
-                <td>
                   <div class="exams-table__actions">
                     <button class="pill" type="button" data-open-report-modal>
-                      <%= exame.relatorio ? 'Visualizar relatório' : 'Registrar relatório' %>
+                      <%= exame.relatorio ? 'Visualizar relatório' : 'Cadastrar relatório' %>
                     </button>
                     <a class="pill" href="#">Editar</a>
                   </div>
@@ -125,32 +116,6 @@
             <button class="pill pill--white" type="button" disabled>Próxima</button>
           </div>
         </div>
-      </div>
-
-      <div class="card card--patients">
-        <div class="card__header">
-          <div>
-            <h2 class="card__title">Histórico de pacientes</h2>
-            <p class="card__subtitle">Últimos pacientes com exames registrados</p>
-          </div>
-          <a class="pill pill--header" href="#">Ver todos</a>
-        </div>
-
-        <ul class="patient-list">
-          <% if (pacientes.length === 0) { %>
-            <li class="patient-list__empty">Nenhum paciente registrado ainda.</li>
-          <% } %>
-          <% pacientes.forEach((paciente) => { %>
-            <li class="patient-row">
-              <span class="patient-row__initials"><%= paciente.iniciais %></span>
-              <div class="patient-row__info">
-                <p class="exams-table__name"><%= paciente.nome %></p>
-                <p class="exams-table__meta"><%= paciente.totalExames %> <%= paciente.totalExames === 1 ? 'exame' : 'exames' %> • Último em <%= paciente.ultimoExame %></p>
-              </div>
-              <span class="chip"><%= paciente.status %></span>
-            </li>
-          <% }) %>
-        </ul>
       </div>
     </section>
   </main>
