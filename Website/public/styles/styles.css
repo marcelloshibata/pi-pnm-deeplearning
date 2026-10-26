@@ -441,6 +441,117 @@ body {
   text-decoration: none;
 }
 
+/* Transição suave entre páginas (View Transitions API, navegação multi-página) */
+@view-transition {
+  navigation: auto;
+}
+
+.navbar {
+  view-transition-name: navbar;
+}
+
+.dashboard {
+  view-transition-name: page-content;
+}
+
+::view-transition-group(navbar) {
+  animation-duration: 0s;
+}
+
+::view-transition-old(page-content) {
+  animation: page-out 180ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(page-content) {
+  animation: page-in 380ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+}
+
+/* O indicador "desliza" de um link para o outro */
+::view-transition-group(nav-indicator) {
+  animation-duration: 450ms;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Fallback para navegadores sem View Transitions */
+@supports not (view-transition-name: none) {
+  .dashboard {
+    animation: page-in 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.navbar__links a {
+  position: relative;
+  padding: 6px 4px;
+  border-radius: 6px;
+  transition: color 250ms ease, transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), opacity 250ms ease;
+}
+
+.navbar__links a:hover,
+.navbar__links a:focus-visible {
+  color: #0a7ac2;
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.navbar__links a:hover::after,
+.navbar__links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.navbar__links a:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.navbar__brand .brand__icon {
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.navbar__brand:hover .brand__icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  .navbar__links a,
+  .navbar__links a::after,
+  .navbar__brand .brand__icon {
+    transition: none;
+  }
+}
+
 .navbar__logo {
   position: relative;
   width: 33px;
@@ -455,7 +566,21 @@ body {
 
 .navbar__profile {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 12px;
+  min-width: 0;
+}
+
+.navbar__user-name {
+  max-width: 200px;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .avatar {
@@ -739,10 +864,13 @@ body {
 }
 
 /* Página de pacientes */
-.navbar__link--active {
-  padding-bottom: 6px;
+.navbar__links a.navbar__link--active {
   color: #0a7ac2;
-  border-bottom: 2px solid var(--blue);
+}
+
+.navbar__links a.navbar__link--active::after {
+  transform: scaleX(1);
+  view-transition-name: nav-indicator;
 }
 
 .page-heading {

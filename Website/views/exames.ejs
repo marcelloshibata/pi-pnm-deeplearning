@@ -20,10 +20,13 @@
 
     <nav class="navbar__links">
       <a href="/pacientes">Pacientes</a>
-      <a href="/exames">Exames</a>
+      <a class="navbar__link--active" href="/exames" aria-current="page">Exames</a>
     </nav>
 
     <div class="navbar__profile">
+      <% if (locals.usuario && usuario.nome) { %>
+        <span class="navbar__user-name"><%= usuario.nome %></span>
+      <% } %>
       <button class="avatar" type="button" aria-label="Perfil<%= locals.usuario ? ' de ' + usuario.nome : '' %>">
         <img src="/imgs/user-icon.svg" alt="" width="18" height="18">
       </button>
@@ -41,16 +44,6 @@
         <p class="summary-card__label">Exames cadastrados</p>
         <p class="summary-card__value"><%= resumo.exames ?? 0 %></p>
         <p class="summary-card__hint"><%= resumo.examesHint || '' %></p>
-      </article>
-      <article class="summary-card">
-        <p class="summary-card__label">Pacientes ativos</p>
-        <p class="summary-card__value"><%= resumo.pacientes ?? 0 %></p>
-        <p class="summary-card__hint"><%= resumo.pacientesHint || '' %></p>
-      </article>
-      <article class="summary-card">
-        <p class="summary-card__label">Imagens anexadas</p>
-        <p class="summary-card__value"><%= resumo.imagens ?? 0 %></p>
-        <p class="summary-card__hint"><%= resumo.imagensHint || '' %></p>
       </article>
     </section>
 
