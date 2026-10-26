@@ -24,6 +24,9 @@
     </nav>
 
     <div class="navbar__profile">
+      <% if (locals.usuario && usuario.nome) { %>
+        <span class="navbar__user-name"><%= usuario.nome %></span>
+      <% } %>
       <button class="avatar" type="button" aria-label="Perfil<%= locals.usuario ? ' de ' + usuario.nome : '' %>">
         <img src="/imgs/user-icon.svg" alt="" width="18" height="18">
       </button>
@@ -91,7 +94,7 @@
             </tr>
           <% } %>
           <% pacientes.forEach((paciente) => { %>
-            <tr class="exams-table__row">
+            <tr class="exams-table__row" data-paciente="<%= JSON.stringify(paciente) %>">
               <td>
                 <div class="patient-cell">
                   <div>
@@ -125,5 +128,6 @@
 
   <%- include('partials/new-patient-modal') %>
   <%- include('partials/error-modal') %>
+  <%- include('partials/patient-view-modal') %>
 </body>
 </html>

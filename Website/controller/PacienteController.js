@@ -82,6 +82,18 @@ const formatarPaciente = (p) => ({
   cpf: formatarCpf(p.cpf_paciente),
   contato: formatarCelular(p.contato_paciente?.celular_paciente),
   cadastro: formatarData(p.createdAt),
+  tipoSanguineo: p.tipo_sanguineo,
+  etnia: p.etnia_paciente,
+  rg: p.rg_paciente,
+  email: p.contato_paciente?.email_paciente,
+  cep: p.endereco_paciente?.cep,
+  logradouro: p.endereco_paciente?.logradouro,
+  numero: p.endereco_paciente?.numero_casa,
+  bairro: p.endereco_paciente?.bairro,
+  cidade: p.endereco_paciente?.cidade,
+  estado: p.endereco_paciente?.estado,
+  complemento: p.endereco_paciente?.complemento,
+  nomeSocial: p.nome_social,
 });
 
 // Renderiza a página de pacientes do médico logado (usada também para mostrar erros)
