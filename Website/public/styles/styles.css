@@ -493,37 +493,39 @@ body {
   }
 }
 
+/* Links da navbar como botões (pílula branca) */
 .navbar__links a {
   position: relative;
-  padding: 6px 4px;
-  border-radius: 6px;
-  transition: color 250ms ease, transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 35px;
+  border-radius: 20px;
+  background: #fff;
+  transition: background-color 250ms ease, color 250ms ease,
+    box-shadow 250ms ease, transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Anel que marca a página atual; desliza entre os botões na navegação */
 .navbar__links a::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--blue);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1), opacity 250ms ease;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 2px var(--blue);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
 }
 
 .navbar__links a:hover,
 .navbar__links a:focus-visible {
-  color: #0a7ac2;
-  transform: translateY(-2px);
+  color: #fff;
+  background: var(--blue);
+  box-shadow: 0 4px 12px rgba(100, 185, 246, 0.4);
+  transform: translateY(-1px);
   outline: none;
-}
-
-.navbar__links a:hover::after,
-.navbar__links a:focus-visible::after {
-  transform: scaleX(1);
 }
 
 .navbar__links a:active {
@@ -531,6 +533,7 @@ body {
 }
 
 .navbar__brand .brand__icon {
+  background: #fff;
   transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -549,6 +552,7 @@ body {
   .navbar__links a::after,
   .navbar__brand .brand__icon {
     transition: none;
+    animation: none;
   }
 }
 
@@ -575,10 +579,10 @@ body {
 .navbar__user-name {
   max-width: 200px;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 20px;
-  color: var(--text);
+  color: #000;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -866,11 +870,27 @@ body {
 /* Página de pacientes */
 .navbar__links a.navbar__link--active {
   color: #0a7ac2;
+  box-shadow: 0 2px 8px rgba(100, 185, 246, 0.28);
+  animation: nav-active-pop 450ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .navbar__links a.navbar__link--active::after {
-  transform: scaleX(1);
+  opacity: 1;
   view-transition-name: nav-indicator;
+}
+
+.navbar__links a.navbar__link--active:hover,
+.navbar__links a.navbar__link--active:focus-visible {
+  color: #fff;
+}
+
+@keyframes nav-active-pop {
+  from {
+    transform: scale(0.92);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .page-heading {
