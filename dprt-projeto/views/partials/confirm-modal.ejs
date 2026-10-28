@@ -1,0 +1,31 @@
+<dialog class="confirm-modal" id="confirm-modal" tabindex="-1" aria-labelledby="confirm-modal-title" aria-describedby="confirm-modal-message">
+  <div class="confirm-modal__alert">
+    <img src="/imgs/circle-alert.svg" alt="" width="36" height="36">
+  </div>
+
+  <h2 class="confirm-modal__title" id="confirm-modal-title">Confirmar edição</h2>
+  <p class="confirm-modal__message" id="confirm-modal-message">Deseja realmente salvar as alterações nos dados deste paciente?</p>
+
+  <div class="confirm-modal__footer">
+    <button class="btn confirm-modal__btn" type="button" data-cancel>Cancelar</button>
+    <button class="btn confirm-modal__btn" type="button" data-confirm>Confirmar</button>
+  </div>
+</dialog>
+
+<script>
+  const confirmModal = document.getElementById('confirm-modal');
+
+  confirmModal.querySelector('[data-cancel]').addEventListener('click', event => {
+    confirmModal.close();
+  })
+
+  confirmModal.querySelector('[data-confirm]').addEventListener('click', event => {
+    confirmModal.close();
+    editPatientForm.submit();
+  })
+  
+  // Fecha ao clicar fora do modal (no backdrop)
+  confirmModal.addEventListener('click', (event) => {
+    if (event.target === confirmModal) confirmModal.close();
+  });
+</script>

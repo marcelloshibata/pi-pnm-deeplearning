@@ -1,0 +1,242 @@
+<dialog class="error-modal exam-modal patient-modal" id="edit-patient-modal" aria-labelledby="edit-patient-modal-title" aria-describedby="edit-patient-modal-description">
+  <form class="exam-form" action="/pacientes/editar" method="post">
+    <input type="hidden" name="id">
+
+    <div class="exam-modal__header patient-modal__header">
+      <span class="patient-modal__icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+      </span>
+      <div class="patient-modal__heading">
+        <h2 class="exam-modal__title" id="edit-patient-modal-title">Editar paciente</h2>
+        <p class="exam-modal__description" id="edit-patient-modal-description">Adicione um paciente sem sair da sua lista.</p>
+      </div>
+      <button class="exam-modal__close" type="button" aria-label="Fechar" data-close-modal>
+        <img src="/imgs/x-icon.svg" alt="" width="18" height="18">
+      </button>
+    </div>
+
+    <div class="exam-modal__body">
+      <section class="exam-form__section">
+        <div class="patient-form__heading">
+          <h3 class="exam-form__section-title">Dados pessoais</h3>
+          <p class="patient-form__required">* Campos obrigatórios</p>
+        </div>
+
+        <div class="exam-form__row patient-form__row--name">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-nome">Nome completo *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-nome" name="nome" autocomplete="off" required autofocus>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-nascimento">Data de nascimento *</label>
+            <input class="field__input field__input--exam field__input--date" type="date" id="editar-paciente-nascimento" name="dataNascimento" required>
+          </div>
+        </div>
+
+        <div class="exam-form__row exam-form__row--3">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-cpf">CPF *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Informe o CPF completo no formato 000.000.000-00" inputmode="numeric" autocomplete="off" required data-mask="cpf">
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-rg">RG</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-rg" name="rg" placeholder="00.000.000-0" maxlength="12" pattern="\d{2}\.\d{3}\.\d{3}-[\dX]" title="Informe o RG completo no formato 00.000.000-0" autocomplete="off" data-mask="rg">
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-sexo">Sexo biológico *</label>
+            <select class="field__input field__input--exam field__input--select" id="editar-paciente-sexo" name="sexo" required>
+              <option value="" disabled selected hidden>Selecione</option>
+              <option>Feminino</option>
+              <option>Masculino</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="exam-form__row exam-form__row--3">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-sangue">Tipo sanguíneo *</label>
+            <select class="field__input field__input--exam field__input--select" id="editar-paciente-sangue" name="tipoSanguineo" required>
+              <option value="" disabled selected hidden>Selecione</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+              <option>O+</option>
+              <option>O-</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-etnia">Cor ou raça (autodeclarada) *</label>
+            <select class="field__input field__input--exam field__input--select" id="editar-paciente-etnia" name="etnia" required>
+              <option value="" disabled selected hidden>Selecione</option>
+              <option>Branca</option>
+              <option>Preta</option>
+              <option>Parda</option>
+              <option>Amarela</option>
+              <option>Indígena</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-nome-social">Nome social (opcional)</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-nome-social" name="nomeSocial" autocomplete="off">
+          </div>
+        </div>
+      </section>
+
+      <section class="exam-form__section">
+        <h3 class="exam-form__section-title patient-form__title">Contato</h3>
+
+        <div class="exam-form__row exam-form__row--2">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-celular">Celular *</label>
+            <input class="field__input field__input--exam" type="tel" id="editar-paciente-celular" name="celular" placeholder="(11) 90000-0000" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" title="Informe o celular no formato (00) 00000-0000" inputmode="numeric" autocomplete="off" required data-mask="celular">
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-email">E-mail</label>
+            <input class="field__input field__input--exam" type="email" id="editar-paciente-email" name="email" placeholder="nome@exemplo.com" autocomplete="off">
+          </div>
+        </div>
+      </section>
+
+      <section class="exam-form__section">
+        <h3 class="exam-form__section-title patient-form__title">Endereço</h3>
+
+        <div class="exam-form__row patient-form__row--street">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-cep">CEP *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-cep" name="cep" placeholder="00000-000" maxlength="9" pattern="\d{5}-\d{3}" title="Informe o CEP no formato 00000-000" inputmode="numeric" autocomplete="off" required data-mask="cep">
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-logradouro">Logradouro *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-logradouro" name="logradouro" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-numero">Número *</label>
+            <input class="field__input field__input--exam" type="number" id="editar-paciente-numero" name="numero" min="0" required>
+          </div>
+        </div>
+
+        <div class="exam-form__row patient-form__row--city">
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-bairro">Bairro *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-bairro" name="bairro" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-cidade">Cidade *</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-cidade" name="cidade" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-uf">UF *</label>
+            <select class="field__input field__input--exam field__input--select" id="editar-paciente-uf" name="estado" required>
+              <option value="" disabled selected hidden></option>
+              <% ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].forEach((uf) => { %>
+                <option><%= uf %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label field__label--exam" for="editar-paciente-complemento">Complemento</label>
+            <input class="field__input field__input--exam" type="text" id="editar-paciente-complemento" name="complemento" autocomplete="off">
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="exam-modal__footer">
+      <p class="exam-modal__privacy">
+        <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
+        Dados protegidos e acesso restrito à equipe assistencial.
+      </p>
+      <div class="exam-modal__actions patient-modal__actions">
+        <button class="btn exam-modal__cancel" type="button" data-close-modal>Cancelar</button>
+        <button class="btn btn--primary exam-modal__submit" type="submit">Editar paciente</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const editPatientModal = document.getElementById('edit-patient-modal');
+  const editPatientForm = editPatientModal.querySelector('.exam-form');
+
+  editPatientForm.addEventListener('submit', (event) => {
+    event.preventDefault(); 
+    confirmModal.showModal();
+  })
+
+  // Preenche o formulário com os dados do paciente (chaves iguais aos "name" dos campos) e abre o modal
+  function editarPaciente(paciente) {
+    // A tabela envia o celular como "contato"
+    const dados = { celular: paciente.contato, ...paciente };
+    editPatientForm.querySelectorAll('[name]').forEach((campo) => {
+      campo.value = dados[campo.name] ?? '';
+      // Dispara a máscara nos campos formatados
+      if (campo.dataset.mask) campo.dispatchEvent(new Event('input'));
+    });
+    editPatientModal.showModal();
+  }
+
+  document.querySelectorAll('[data-open-edit-patient-modal]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const linha = button.closest('[data-paciente]');
+      if (linha) editarPaciente(JSON.parse(linha.dataset.paciente));
+    });
+  });
+
+  editPatientModal.querySelectorAll('[data-close-modal]').forEach((button) => {
+    button.addEventListener('click', () => editPatientModal.close());
+  });
+
+  editPatientModal.addEventListener('close', () => editPatientForm.reset());
+
+  // Máscaras: cada "0" do padrão recebe um caractere digitado
+  const mascarasEdicaoPaciente = {
+    cpf: { padrao: '000.000.000-00', max: 11 },
+    rg: { padrao: '00.000.000-0', max: 9 },
+    celular: { padrao: '(00) 00000-0000', max: 11 },
+    cep: { padrao: '00000-000', max: 8 },
+  };
+
+  // O dígito verificador do RG pode ser "X", aceito só na última posição
+  function limparMascaraEdicao(tipo, valor) {
+    const { max } = mascarasEdicaoPaciente[tipo];
+    let limpo = '';
+    for (const char of valor.toUpperCase()) {
+      if (limpo.length === max) break;
+      if (/\d/.test(char) || (tipo === 'rg' && char === 'X' && limpo.length === max - 1)) limpo += char;
+    }
+    return limpo;
+  }
+
+  function aplicarMascaraEdicao(valor, padrao) {
+    let formatado = '';
+    let i = 0;
+    for (const char of padrao) {
+      if (i >= valor.length) break;
+      formatado += char === '0' ? valor[i++] : char;
+    }
+    return formatado;
+  }
+
+  editPatientModal.querySelectorAll('[data-mask]').forEach((input) => {
+    const tipo = input.dataset.mask;
+
+    input.addEventListener('input', () => {
+      // Guarda quantos caracteres válidos havia antes do cursor, para ele não pular para o fim ao editar no meio
+      const antesDoCursor = limparMascaraEdicao(tipo, input.value.slice(0, input.selectionStart)).length;
+      const formatado = aplicarMascaraEdicao(limparMascaraEdicao(tipo, input.value), mascarasEdicaoPaciente[tipo].padrao);
+      input.value = formatado;
+
+      let posicao = 0;
+      let contados = 0;
+      while (posicao < formatado.length && contados < antesDoCursor) {
+        if (/[\dX]/.test(formatado[posicao])) contados++;
+        posicao++;
+      }
+      input.setSelectionRange(posicao, posicao);
+    });
+  });
+</script>

@@ -206,3 +206,55 @@ export function cadastrar(req, res) {
         return erro(500, "Erro interno ao cadastrar o paciente.");
     });
 }
+
+export function editar(req, res) {
+    const id = req.body.id;
+    const nome = req.body.nome;
+    const dataNasc = req.body.dataNascimento;
+    const cpf = soDigitos(req.body.cpf);
+    const rg = req.body.rg;
+    const sexo = req.body.sexo;
+    const tipoSanguineo = req.body.tipoSanguineo;
+    const etnia = req.body.etnia;
+    const nomeSocial = req.body.nomeSocial;
+    const celular = req.body.celular;
+    const email = req.body.email;
+    const cep = req.body.cep;
+    const logradouro = req.body.logradouro;
+    const numero_casa = Number(req.body.numero);
+    const bairro = req.body.bairro;
+    const cidade = req.body.cidade;
+    const estado = req.body.estado;
+    const complemento = req.body.complemento;
+
+    const usuario = req.session.user;
+
+    Paciente.findOneAndUpdate({
+      _id: id, cadastrado_por: usuario.id
+    }, {
+      nome_paciente: nome,
+      dataNascimento_paciente: dataNasc,
+      cpf_paciente: cpf,
+      rg_paciente: rg,
+      sexo_biologico: sexo,
+      tipo_sanguineo: tipoSanguineo,
+      etnia_paciente: etnia,
+      nome_social: nomeSocial,
+      contato_paciente: {
+        celular_paciente: soDigitos(celular),
+        email_paciente: email,
+      },
+      endereco_paciente: {
+        cep: soDigitos(cep),
+        logradouro: logradouro,
+        numero_casa: numero_casa,
+        bairro: bairro,
+        cidade: cidade,
+        estado: estado,
+        complemento: complemento,
+      }
+    }).then(() => res.redirect("/pacientes")).catch(error => {
+      console.log(error);
+      return erro(500, "Erro interno ao editar paciente.");
+    })
+}

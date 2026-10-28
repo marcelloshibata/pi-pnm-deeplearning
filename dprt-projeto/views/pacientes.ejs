@@ -108,7 +108,7 @@
               <td><%= paciente.cadastro %></td>
               <td>
                 <div class="exams-table__actions">
-                  <a class="link-action" href="#">Editar</a>
+                  <a class="link-action" href="#" data-open-edit-patient-modal>Editar</a>
                 </div>
               </td>
             </tr>
@@ -129,5 +129,7 @@
   <%- include('partials/new-patient-modal') %>
   <%- include('partials/error-modal') %>
   <%- include('partials/patient-view-modal') %>
+  <%- include('partials/edit-patient-modal') %>
+  <%- include('partials/confirm-modal') %>
 </body>
 </html>
