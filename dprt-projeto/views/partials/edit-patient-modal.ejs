@@ -149,7 +149,7 @@
         <img src="/imgs/shield-check-icon.svg" alt="" width="16" height="16">
         Dados protegidos e acesso restrito à equipe assistencial.
       </p>
-      <div class="exam-modal__actions patient-modal__actions">
+      <div class="exam-modal__actions">
         <button class="btn exam-modal__cancel" type="button" data-close-modal>Cancelar</button>
         <button class="btn btn--primary exam-modal__submit" type="submit">Editar paciente</button>
       </div>
@@ -162,8 +162,12 @@
   const editPatientForm = editPatientModal.querySelector('.exam-form');
 
   editPatientForm.addEventListener('submit', (event) => {
-    event.preventDefault(); 
-    confirmModal.showModal();
+    event.preventDefault();
+    abrirConfirmacao({
+      titulo: 'Confirmar edição',
+      mensagem: 'Deseja mesmo alterar os dados desse paciente?',
+      aoConfirmar: () => editPatientForm.submit()
+    });
   })
 
   // Preenche o formulário com os dados do paciente (chaves iguais aos "name" dos campos) e abre o modal

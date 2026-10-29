@@ -108,7 +108,7 @@
               <td>
                 <div class="exams-table__actions">
                   <button class="pill" type="button" data-open-edit-patient-modal>Editar</button>
-                  <a class="pill pill--danger" href="/pacientes/deletar/<%= paciente.id %>">Deletar</a>
+                  <button type="button" class="pill pill--danger" data-delete-id="<%= paciente.id %>">Deletar</button>
                 </div>
               </td>
             </tr>
@@ -131,5 +131,17 @@
   <%- include('partials/patient-view-modal') %>
   <%- include('partials/edit-patient-modal') %>
   <%- include('partials/confirm-modal') %>
+<script>
+  document.querySelectorAll('[data-delete-id]').forEach(botao => {
+    botao.addEventListener('click', () => {
+      const id = botao.dataset.deleteId;
+      abrirConfirmacao({
+        titulo: 'Confirmar exclusão',
+        mensagem: 'Deseja mesmo deletar esse paciente?',
+        aoConfirmar: () => { window.location.href = '/pacientes/deletar/' + id }
+      });
+    });
+  });
+</script>
 </body>
 </html>
