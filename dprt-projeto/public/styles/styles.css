@@ -647,11 +647,18 @@ body {
 }
 
 .summary-card {
+  position: relative;
   height: 124px;
   padding: 18px;
   background: #fff;
   border: 1px solid var(--dash-line);
   border-radius: 16px;
+}
+
+.summary-card__icon {
+  position: absolute;
+  top: 12px;
+  right: 14px;
 }
 
 .summary-card__label {
@@ -767,6 +774,12 @@ body {
 
 .pill--header {
   padding: 8px 12px;
+}
+
+.pill--danger {
+  color: #fff;
+  background: var(--danger);
+  border-color: var(--danger);
 }
 
 .pill--action {

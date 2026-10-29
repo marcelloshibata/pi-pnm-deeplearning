@@ -41,16 +41,19 @@
 
     <section class="summary-row">
       <article class="summary-card">
+        <img class="summary-card__icon" src="/imgs/person-check-icon.svg" alt="" width="31" height="31">
         <p class="summary-card__label">Pacientes cadastrados</p>
         <p class="summary-card__value"><%= resumo.pacientes ?? 0 %></p>
         <p class="summary-card__hint"><%= resumo.pacientesHint || '' %></p>
       </article>
       <article class="summary-card">
+        <img class="summary-card__icon" src="/imgs/person-exclamation-icon.svg" alt="" width="29" height="29">
         <p class="summary-card__label">Em acompanhamento</p>
         <p class="summary-card__value"><%= resumo.acompanhamento ?? 0 %></p>
         <p class="summary-card__hint"><%= resumo.acompanhamentoHint || '' %></p>
       </article>
       <article class="summary-card">
+        <img class="summary-card__icon" src="/imgs/person-plus-icon.svg" alt="" width="29" height="29">
         <p class="summary-card__label">Novos neste mês</p>
         <p class="summary-card__value"><%= resumo.novos ?? 0 %></p>
         <p class="summary-card__hint"><%= resumo.novosHint || '' %></p>
@@ -70,10 +73,6 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             <input type="search" placeholder="Buscar por nome, CPF ou RG" aria-label="Buscar paciente">
           </label>
-          <button class="pill pill--action" type="button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"/></svg>
-            Filtros
-          </button>
         </div>
       </div>
 
@@ -108,7 +107,8 @@
               <td><%= paciente.cadastro %></td>
               <td>
                 <div class="exams-table__actions">
-                  <a class="link-action" href="#" data-open-edit-patient-modal>Editar</a>
+                  <button class="pill" type="button" data-open-edit-patient-modal>Editar</button>
+                  <a class="pill pill--danger" href="/pacientes/deletar/<%= paciente.id %>">Deletar</a>
                 </div>
               </td>
             </tr>
