@@ -258,3 +258,29 @@ export function editar(req, res) {
       return erro(500, "Erro interno ao editar paciente.");
     })
 }
+
+export async function deletar(req, res) {
+   const erro = (status, mensagem) =>
+    renderPacientes(req, res, status, { erro: mensagem });
+
+  const id = req.params.id;
+  const usuario = req.session.user;
+
+  try {
+    if (!mongoose.isValidObjectId(id)) return erro(400, "Não é um ID válido.");
+
+    const paciente = await Paciente.findOne({_id: id, cadastrado_por: usuario.id});
+    if (!paciente) return erro(404, "Paciente não encontrado.");
+
+    const temExame = await Exame.exists({pacienteId: id});
+    if (temExame) {
+      return erro(409, "Paciente possui exames e não pode ser deletado.");
+    }
+
+    await Paciente.findOneAndDelete({_id: id, cadastrado_por: usuario.id});
+    res.redirect("/pacientes");
+  } catch (error) {
+    console.log(error);
+    return erro(500, "Erro interno.");
+  }
+}
