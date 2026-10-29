@@ -8,12 +8,28 @@
 
   <div class="confirm-modal__footer">
     <button class="btn confirm-modal__btn" type="button" data-cancel>Cancelar</button>
-    <button class="btn confirm-modal__btn" type="button" data-confirm>Confirmar</button>
+    <button class="btn confirm-modal__btn" type="button" id="confirm-button" data-confirm>Confirmar</button>
   </div>
 </dialog>
 
 <script>
   const confirmModal = document.getElementById('confirm-modal');
+
+  let onConfirm = null;
+
+  function abrirConfirmacao({ titulo, mensagem, aoConfirmar }) {
+    document.getElementById('confirm-modal-title').textContent = titulo;
+    document.getElementById('confirm-modal-message').textContent = mensagem;
+
+    if (titulo === 'Confirmar exclusão') {
+      document.getElementById('confirm-button').style.backgroundColor = '#D34A43'
+    } else {
+      document.getElementById('confirm-button').style.backgroundColor = ''
+    }
+
+    onConfirm = aoConfirmar;
+    confirmModal.showModal();
+  }
 
   confirmModal.querySelector('[data-cancel]').addEventListener('click', event => {
     confirmModal.close();
@@ -21,7 +37,7 @@
 
   confirmModal.querySelector('[data-confirm]').addEventListener('click', event => {
     confirmModal.close();
-    editPatientForm.submit();
+    if (onConfirm) onConfirm();
   })
   
   // Fecha ao clicar fora do modal (no backdrop)

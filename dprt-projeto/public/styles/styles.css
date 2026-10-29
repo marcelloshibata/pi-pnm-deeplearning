@@ -1461,20 +1461,15 @@ body {
   grid-template-columns: minmax(0, 288fr) minmax(0, 288fr) minmax(0, 80fr) minmax(0, 140fr);
 }
 
-.patient-modal__actions {
-  grid-template-columns: auto minmax(0, 364px);
-  justify-content: end;
-}
-
-.patient-modal__actions .exam-modal__cancel {
-  padding: 0 24px;
+.patient-modal__actions--single {
+  grid-template-columns: minmax(0, 364px);
+  justify-content: center;
 }
 
 @media (max-width: 800px) {
   .patient-form__row--name,
   .patient-form__row--street,
-  .patient-form__row--city,
-  .patient-modal__actions {
+  .patient-form__row--city {
     grid-template-columns: minmax(0, 1fr);
   }
 }
