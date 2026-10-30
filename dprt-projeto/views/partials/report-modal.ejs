@@ -101,7 +101,8 @@
     const somenteLeitura = relatorio !== null;
 
     reportTitle.textContent = somenteLeitura ? 'Relatório médico' : 'Cadastrar relatório médico';
-    reportSubmit.hidden = somenteLeitura;
+    reportSubmit.type = somenteLeitura ? 'button' : 'submit';
+    reportSubmit.textContent = somenteLeitura ? 'Exportar para PDF' : 'Salvar relatório';
     reportForm.querySelectorAll('input:not([name="id"]), textarea').forEach((campo) => {
       campo.disabled = somenteLeitura;
     });
@@ -132,6 +133,12 @@
 
   reportModal.addEventListener('click', (event) => {
     if (event.target === reportModal) reportModal.close();
+  });
+
+  reportSubmit.addEventListener('click', () => {
+    if (reportSubmit.type !== 'button') return;
+
+    window.location.href = `/exames/${reportForm.elements.id.value}/relatorio.pdf`;
   });
 
   reportModal.addEventListener('close', () => reportForm.reset());
