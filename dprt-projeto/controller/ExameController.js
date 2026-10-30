@@ -5,7 +5,7 @@ import Paciente from "../model/Paciente.js";
 import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
 import PDFDocument from "pdfkit";
 
-// Confere os primeiros bytes do arquivo, pois o mimetype enviado pelo navegador pode ser falso
+// Confere os primeiros bytes do arquivo, pois o mimetype enviado pelo navegador pode ser falso.
 const ehPng = (b) =>
   b.length > 8 &&
   b.subarray(0, 4).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
