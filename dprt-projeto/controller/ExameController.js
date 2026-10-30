@@ -3,6 +3,7 @@ import Exame from "../model/Exame.js";
 import { pipeline } from "node:stream/promises";
 import Paciente from "../model/Paciente.js";
 import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
+import PDFDocument from "pdfkit";
 
 // Confere os primeiros bytes do arquivo, pois o mimetype enviado pelo navegador pode ser falso
 const ehPng = (b) =>
@@ -206,7 +207,55 @@ export function registrarRelatorio(req, res) {
   })
 }
 
+export async function exportarRelatorio(req, res) {
+  const { id } = req.params;
+  if (!mongoose.isValidObjectId(id)) return res.sendStatus(404);
 
+  try {
+    const exame = await Exame.findOne({ _id: id, medicoId: req.session.user.id }).populate("pacienteId").lean()
+    if (!exame?.relatorio?.parecer_final) return res.sendStatus(404);
+
+    const dados = formatarExame(exame);
+    const { relatorio } = exame;
+
+    const doc = new PDFDocument({ size: "A4", margin: 50 });
+    res.set({
+      "Content-Type": "application/pdf",
+      // Attachment faz o navegador baixar o arquivo em vez de navegar até ele
+      "Content-Disposition": `attachment;filename="relatorio-${id}.pdf"`,
+    });
+
+    doc.pipe(res);
+    doc.fontSize(20).text("Relatório médico", { align: "center" });
+    doc.moveDown();
+    doc.fontSize(14).text("Paciente");
+    doc.fontSize(11)
+      .text(`Nome: ${dados.paciente}`)
+      .text(`CPF: ${dados.cpf}`)
+      .text(`Idade: ${dados.idade}`)
+      .text(`Sexo: ${dados.sexo}`);
+    doc.moveDown();
+
+    doc.fontSize(14).text("Exame");
+    doc.fontSize(11)
+      .text(`Tipo: ${dados.tipoExame}`)
+      .text(`Data do exame: ${dados.data}`);
+    doc.moveDown();
+
+    doc.fontSize(14).text("Relatório");
+    doc.fontSize(11)
+      .text(`Diagnóstico de pneumonia: ${relatorio.diagnostico_confirmado ? "Sim" : "Não"}`)
+      .text(`Data do relatório: ${formatarData(relatorio.data_relatorio)}`);
+    doc.moveDown();
+    doc.fontSize(14).text("Parecer final");
+    doc.fontSize(11).text(relatorio.parecer_final, { align: "justify" });
+    doc.end();
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+  
+}
 
 // Recebe o formulário do modal "Novo exame": vincula um paciente já cadastrado, salva a imagem e cria o exame
 // req.body e req.file são preenchidos pelo middleware Upload (multer)
