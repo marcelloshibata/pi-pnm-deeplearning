@@ -16,6 +16,8 @@
   --dash-chip: #eaf7ff;
   --dash-chip-warning: #fff4e5;
   --dash-highlight: #4e6674;
+  --dash-outline: #00a1ff;
+  --dash-hint: #247bae;
 }
 
 *,
@@ -682,6 +684,10 @@ body {
   color: var(--blue);
 }
 
+.summary-card__hint--patients {
+  color: var(--dash-hint);
+}
+
 .dashboard__new-exam {
   width: 364px;
   max-width: 100%;
@@ -701,6 +707,10 @@ body {
   background: #fff;
   border: 1px solid var(--dash-line);
   border-radius: 16px;
+}
+
+.card--outlined {
+  border-color: #000;
 }
 
 .card--highlight {
@@ -753,7 +763,7 @@ body {
   text-decoration: none;
   white-space: nowrap;
   background: var(--dash-bg);
-  border: 1px solid var(--dash-line);
+  border: 1px solid var(--dash-outline);
   border-radius: 999px;
   cursor: pointer;
 }
@@ -772,6 +782,16 @@ body {
   background: #fff;
 }
 
+/* Botões de paginação da página de pacientes */
+.pill--page {
+  height: 46px;
+  padding: 0 22px;
+  font-size: 14px;
+  line-height: normal;
+  background: #fff;
+  border-radius: 10px;
+}
+
 .pill--header {
   padding: 8px 12px;
 }
@@ -780,6 +800,44 @@ body {
   color: #fff;
   background: var(--danger);
   border-color: var(--danger);
+}
+
+/* Animação de hover dos botões das tabelas (exames e pacientes) */
+.exams-table .pill,
+.card__pagination .pill {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease,
+    box-shadow 200ms ease, transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.exams-table .pill:hover,
+.exams-table .pill:focus-visible,
+.card__pagination .pill:not(:disabled):hover,
+.card__pagination .pill:not(:disabled):focus-visible {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 4px 12px rgba(100, 185, 246, 0.4);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.exams-table .pill--danger:hover,
+.exams-table .pill--danger:focus-visible {
+  background: #b83a34;
+  border-color: #b83a34;
+  box-shadow: 0 4px 12px rgba(211, 74, 67, 0.4);
+}
+
+.exams-table .pill:active,
+.card__pagination .pill:not(:disabled):active {
+  transform: translateY(0) scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exams-table .pill,
+  .card__pagination .pill {
+    transition: none;
+  }
 }
 
 .pill--action {
@@ -968,19 +1026,19 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 260px;
-  padding: 10px 12px;
+  width: 340px;
+  padding: 12px;
   color: #0a7ac2;
   background: #fff;
   border: 1px solid var(--dash-line);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .search-field input {
   flex: 1;
   min-width: 0;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 16px;
   color: var(--text);
   background: transparent;

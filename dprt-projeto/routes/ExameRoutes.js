@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { cadastrar, imagem, analisar, registrarRelatorio, exportarRelatorio } from "../controller/ExameController.js";
+import { cadastrar, imagem, analisar, registrarRelatorio, exportarRelatorio, deletar } from "../controller/ExameController.js";
 import Auth from "../middleware/Auth.js";
 import Upload from "../middleware/Upload.js";
 
@@ -16,5 +16,7 @@ route.post("/exames/analisar", Auth, analisar);
 route.post("/exames/relatorio", Auth, registrarRelatorio);
 
 route.get("/exames/:id/relatorio.pdf", Auth, exportarRelatorio);
+
+route.get("/exames/deletar/:id", Auth, deletar);
 
 export default route;

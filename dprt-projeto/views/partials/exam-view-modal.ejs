@@ -141,7 +141,7 @@
   document.querySelectorAll('[data-exame]').forEach((linha) => {
     const exame = JSON.parse(linha.dataset.exame);
     linha.addEventListener('click', (event) => {
-      if (event.target.closest('a')) return;
+      if (event.target.closest('a, button')) return;
       abrirExame(exame);
     });
 

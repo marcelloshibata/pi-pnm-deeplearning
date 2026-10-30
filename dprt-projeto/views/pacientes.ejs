@@ -44,25 +44,25 @@
         <img class="summary-card__icon" src="/imgs/person-check-icon.svg" alt="" width="31" height="31">
         <p class="summary-card__label">Pacientes cadastrados</p>
         <p class="summary-card__value"><%= resumo.pacientes ?? 0 %></p>
-        <p class="summary-card__hint"><%= resumo.pacientesHint || '' %></p>
+        <p class="summary-card__hint summary-card__hint--patients"><%= resumo.pacientesHint || '' %></p>
       </article>
       <article class="summary-card">
         <img class="summary-card__icon" src="/imgs/person-exclamation-icon.svg" alt="" width="29" height="29">
         <p class="summary-card__label">Em acompanhamento</p>
         <p class="summary-card__value"><%= resumo.acompanhamento ?? 0 %></p>
-        <p class="summary-card__hint"><%= resumo.acompanhamentoHint || '' %></p>
+        <p class="summary-card__hint summary-card__hint--patients"><%= resumo.acompanhamentoHint || '' %></p>
       </article>
       <article class="summary-card">
         <img class="summary-card__icon" src="/imgs/person-plus-icon.svg" alt="" width="29" height="29">
         <p class="summary-card__label">Novos neste mês</p>
         <p class="summary-card__value"><%= resumo.novos ?? 0 %></p>
-        <p class="summary-card__hint"><%= resumo.novosHint || '' %></p>
+        <p class="summary-card__hint summary-card__hint--patients"><%= resumo.novosHint || '' %></p>
       </article>
     </section>
 
     <button class="btn btn--primary dashboard__new-exam" type="button" data-open-patient-modal>+ Novo paciente</button>
 
-    <section class="card patients-card">
+    <section class="card card--outlined patients-card">
       <div class="card__header">
         <div>
           <h2 class="card__title">Todos os pacientes</h2>
@@ -119,8 +119,8 @@
       <div class="card__footer">
         <p class="card__subtitle">Mostrando <%= pacientes.length %> de <%= totalPacientes %> pacientes</p>
         <div class="card__pagination">
-          <button class="pill pill--white" type="button" disabled>Anterior</button>
-          <button class="pill pill--white" type="button" disabled>Próxima</button>
+          <button class="pill pill--page" type="button" disabled>Anterior</button>
+          <button class="pill pill--page" type="button" disabled>Próxima</button>
         </div>
       </div>
     </section>
