@@ -257,6 +257,31 @@ export async function exportarRelatorio(req, res) {
   
 }
 
+// Apaga o exame do médico logado e a radiografia guardada no GridFS
+export async function deletar(req, res) {
+  const { id } = req.params;
+  const medicoId = req.session.user.id;
+
+  try {
+    if (!mongoose.isValidObjectId(id)) return error(req, res, 400, "Não é um ID válido.");
+
+    const exame = await Exame.findOneAndDelete({ _id: id, medicoId });
+    if (!exame) return error(req, res, 404, "Exame não encontrado.");
+
+    // O exame já foi apagado; se a limpeza da imagem falhar, só registra o erro
+    if (exame.imagem_exame?.arquivoId) {
+      await removerImagem(exame.imagem_exame.arquivoId).catch((erro) =>
+        console.log(`Erro ao remover a imagem do exame: ${erro}`),
+      );
+    }
+
+    res.redirect("/exames");
+  } catch (erro) {
+    console.log(`Erro ao deletar exame: ${erro}`);
+    return error(req, res, 500, "Erro interno ao deletar o exame.");
+  }
+}
+
 // Recebe o formulário do modal "Novo exame": vincula um paciente já cadastrado, salva a imagem e cria o exame
 // req.body e req.file são preenchidos pelo middleware Upload (multer)
 export function cadastrar(req, res) {

@@ -41,6 +41,7 @@
 
     <section class="summary-row">
       <article class="summary-card">
+        <img class="summary-card__icon" src="/imgs/exame-clipboard-icon.svg" alt="" width="37" height="37">
         <p class="summary-card__label">Exames cadastrados</p>
         <p class="summary-card__value"><%= resumo.exames ?? 0 %></p>
         <p class="summary-card__hint"><%= resumo.examesHint || '' %></p>
@@ -95,6 +96,7 @@
                       <%= exame.relatorio ? 'Visualizar relatório' : 'Cadastrar relatório' %>
                     </button>
                     <a class="pill" href="#">Editar</a>
+                    <button type="button" class="pill pill--danger" data-delete-id="<%= exame.id %>">Deletar</button>
                   </div>
                 </td>
               </tr>
@@ -117,5 +119,18 @@
   <%- include('partials/exam-view-modal') %>
   <%- include('partials/report-modal') %>
   <%- include('partials/error-modal') %>
+  <%- include('partials/confirm-modal') %>
+<script>
+  document.querySelectorAll('[data-delete-id]').forEach(botao => {
+    botao.addEventListener('click', () => {
+      const id = botao.dataset.deleteId;
+      abrirConfirmacao({
+        titulo: 'Confirmar exclusão',
+        mensagem: 'Deseja mesmo deletar esse exame?',
+        aoConfirmar: () => { window.location.href = '/exames/deletar/' + id }
+      });
+    });
+  });
+</script>
 </body>
 </html>
