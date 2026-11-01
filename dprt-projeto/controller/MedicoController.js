@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import Medico from "../model/Medico.js";
+import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
 
 const normalizarCRM = (valor) => valor.toUpperCase().replace(/\s+/g, "");
 
@@ -87,6 +88,7 @@ export function authenticate(req, res) {
             req.session.user = {
                 id: medico._id.toString(),
                 nome: medico.nome_medico,
+                fotoId: medico.foto_id?.toString(),
             };
 
             // Se tudo deu certo, redireciona para o inicio
@@ -96,4 +98,62 @@ export function authenticate(req, res) {
         console.log(`Erro na autenticação: ${error}`);
         res.status(500).render("login", { erro: "Erro interno. Tente novamente" });
     });
+}
+
+// extra permite enviar { erro } para o modal de erro da página
+export async function renderPerfil(req, res, status = 200, extra = {}) {
+    const medico = await Medico.findById(req.session.user.id).lean();
+    res.status(status).render("perfil", {
+        usuario: req.session.user,
+        medico: {
+            nome: medico.nome_medico,
+            crm: medico.crm_medico,
+            instituicao: medico.hospital.nome,
+            foto: medico.foto_id ? `/perfil/foto?v=${medico.foto_id}` : null,
+        },
+        ...extra,
+    });
+}
+
+export const perfil = (req, res) => renderPerfil(req, res);
+
+export async function atualizarFoto(req, res) {
+    // Se não veio arquivo na requisição
+    if (!req.file) return renderPerfil(req, res, 400, { erro: "Selecione uma imagem PNG, JPG ou WebP." });
+
+    try {
+        const medico = await Medico.findById(req.session.user.id);
+
+        const novoIdFoto = await salvarImagem(req.file.buffer, {
+            nome: req.file.originalname,
+            contentType: req.file.mimetype,
+            bucketName: "fotos",
+        });
+
+        const antigoIdFoto = medico.foto_id;
+        medico.foto_id = novoIdFoto;
+        await medico.save();
+        // A navbar lê a foto da sessão
+        req.session.user.fotoId = novoIdFoto.toString();
+
+        if (antigoIdFoto) await removerImagem(antigoIdFoto, "fotos").catch(() => {});
+
+        res.redirect("/perfil");
+    } catch (error) {
+        console.log(`Erro ao salvar a foto de perfil: ${error}`);
+        renderPerfil(req, res, 500, { erro: "Não foi possível salvar a foto. Tente novamente." });
+    }
+}
+
+export async function mostrarFoto(req, res) {
+    const medico = await Medico.findById(req.session.user.id).lean();
+    if (!medico?.foto_id) return res.sendStatus(404);
+    res.set("Cache-Control", "private, max-age=86400");
+
+    abrirImagem(medico.foto_id, "fotos").on("error", () => res.sendStatus(404)).pipe(res);
+}
+
+export function logout(req, res) {
+    req.session.user = undefined;
+    res.redirect("/");
 }

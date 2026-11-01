@@ -62,6 +62,13 @@ app.use(
   }),
 );
 
+// Deixa a foto do médico logado disponível em todas as views
+app.use((req, res, next) => {
+  const fotoId = req.session.user?.fotoId;
+  res.locals.fotoPerfil = fotoId ? `/perfil/foto?v=${fotoId}` : null;
+  next();
+});
+
 app.use(medicoRoutes)
 app.use(exameRoutes)
 app.use(pacienteRoutes)
