@@ -92,7 +92,7 @@ Você pode acessar o projeto que já está em funcionamento pelo link: **https:/
 
 ### Como executar localmente
 
-Caso queira executar localmente o porjeto, é importante ter os pré-requisitos: **Node.js** e uma instância do **MongoDB** (local ou Atlas).
+Caso queira executar localmente o projeto, é importante ter os pré-requisitos: **Node.js** e uma instância do **MongoDB** (local ou Atlas).
 
 ```bash
 cd dprt-projeto
