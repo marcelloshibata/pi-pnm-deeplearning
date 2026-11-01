@@ -92,6 +92,9 @@ function formatarExame(exame) {
 // "extras" permite mandar dados a mais para a view, como { erro: "..." } para abrir o modal de erro
 export function renderInicio(req, res, status = 200, extras = {}) {
   const medicoId = req.session.user.id;
+  // Mensagem de sucesso guardada antes de um redirect; aparece uma única vez
+  const sucesso = req.session.sucesso;
+  delete req.session.sucesso;
 
   // As duas consultas rodam ao mesmo tempo
   return Promise.all([
@@ -107,6 +110,7 @@ export function renderInicio(req, res, status = 200, extras = {}) {
     .then(([exames, totalExames]) => {
       res.status(status).render("exames", {
         usuario: req.session.user,
+        sucesso,
         exames: exames.map(formatarExame),
         totalExames,
         resumo: { exames: totalExames },
@@ -202,9 +206,15 @@ export function registrarRelatorio(req, res) {
         data_relatorio: new Date(`${dataRelatorio}T12:00:00`)
       }
     }
-  ).then(() => {
+  ).then((exame) => {
+    // Sem exame atualizado (id inexistente ou de outro médico) não há o que comemorar
+    if (!exame) return error(req, res, 404, "Exame não encontrado.");
+    req.session.sucesso = "Relatório registrado com sucesso.";
     res.redirect("/exames");
-  })
+  }).catch((erro) => {
+    console.log(`Erro ao registrar relatório: ${erro}`);
+    return error(req, res, 500, "Erro interno ao registrar o relatório.");
+  });
 }
 
 export async function exportarRelatorio(req, res) {
@@ -342,6 +352,7 @@ export function cadastrar(req, res) {
     })
   }).then(() => {
     // Volta para a página inicial, que já vai listar o exame novo e o total atualizado
+    req.session.sucesso = "Exame cadastrado com sucesso.";
     res.redirect("/exames");
   }).catch(erro => {
     console.log(`Erro ao cadastrar exame: ${erro}`);
