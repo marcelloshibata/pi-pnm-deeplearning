@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { cadastrar, authenticate } from "../controller/MedicoController.js";
+import { cadastrar, authenticate, perfil, atualizarFoto, mostrarFoto, logout } from "../controller/MedicoController.js";
 import { renderInicio } from "../controller/ExameController.js";
 import Auth from '../middleware/Auth.js';
+import uploadFoto from "../middleware/UploadFoto.js";
 
 const route = Router();
 
@@ -25,6 +26,13 @@ route.get("/exames", Auth, (req, res) => {
     renderInicio(req, res);
 })
 
+route.get("/perfil", Auth, perfil);
+
+route.get("/perfil/foto", Auth, mostrarFoto);
+
+route.post("/perfil/foto", Auth, uploadFoto, atualizarFoto);
+
+route.get("/logout", logout);
 
 
 export default route;

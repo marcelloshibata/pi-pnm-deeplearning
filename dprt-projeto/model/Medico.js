@@ -28,6 +28,9 @@ const medicoSchema = new mongoose.Schema(
     hospital: {
       nome: { type: String, required: true, trim: true },
     },
+    foto_id: {
+      type: mongoose.Schema.Types.ObjectId
+    },
   },
   { timestamps: true },
 );

@@ -27,9 +27,13 @@
       <% if (locals.usuario && usuario.nome) { %>
         <span class="navbar__user-name"><%= usuario.nome %></span>
       <% } %>
-      <button class="avatar" type="button" aria-label="Perfil<%= locals.usuario ? ' de ' + usuario.nome : '' %>">
-        <img src="/imgs/user-icon.svg" alt="" width="18" height="18">
-      </button>
+      <a class="avatar" href="/perfil" aria-label="Perfil<%= locals.usuario ? ' de ' + usuario.nome : '' %>">
+        <% if (locals.fotoPerfil) { %>
+          <img class="avatar__img" src="<%= fotoPerfil %>" alt="">
+        <% } else { %>
+          <img src="/imgs/user-icon.svg" alt="" width="18" height="18">
+        <% } %>
+      </a>
     </div>
   </header>
 
