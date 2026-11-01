@@ -47,7 +47,10 @@ export function cadastrar(req, res) {
                 hospital: { nome: instituicao }
             })
         }).then(() => {
-            res.status(201).render("cadastro", { sucesso: "Você foi cadastrado com sucesso." });
+            res.status(201).render("cadastro", {
+              sucesso: "Você foi cadastrado com sucesso.",
+              sucessoLink: { href: "/login", texto: "Voltar para o Login" },
+            });
         })
     }).catch(error => {
         console.log(`Ocorreu um erro ao cadastrar o usuário. Erro ${error}`);

@@ -100,6 +100,9 @@ const formatarPaciente = (p) => ({
 // "extras" permite mandar dados a mais para a view, como { erro: "..." } para abrir o modal de erro
 export function renderPacientes(req, res, status = 200, extras = {}) {
   const medicoId = req.session.user.id;
+  // Mensagem de sucesso guardada antes de um redirect; aparece uma única vez
+  const sucesso = req.session.sucesso;
+  delete req.session.sucesso;
   const agora = new Date();
   const inicioDoMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
   const mes = agora.toLocaleDateString("pt-BR", { month: "long", timeZone: "America/Sao_Paulo" });
@@ -117,6 +120,7 @@ export function renderPacientes(req, res, status = 200, extras = {}) {
     .then(([pacientes, totalPacientes, novos, emAcompanhamento]) => {
       res.status(status).render("pacientes", {
         usuario: req.session.user,
+        sucesso,
         pacientes: pacientes.map(formatarPaciente),
         totalPacientes,
         resumo: {
@@ -199,7 +203,10 @@ export function cadastrar(req, res) {
                 estado: estado,
                 complemento: complemento,
             },
-        }).then(() => res.redirect("/pacientes"));
+        }).then(() => {
+            req.session.sucesso = "Paciente cadastrado com sucesso.";
+            res.redirect("/pacientes");
+        });
     }).catch((e) => {
         console.log(`Erro ao cadastrar paciente: ${e}`);
         if (e.name === "ValidationError") return erro(400, "Dados inválidos.");
