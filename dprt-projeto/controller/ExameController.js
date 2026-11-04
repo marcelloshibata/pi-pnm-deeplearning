@@ -3,7 +3,7 @@ import Exame from "../model/Exame.js";
 import { pipeline } from "node:stream/promises";
 import Paciente from "../model/Paciente.js";
 import { salvarImagem, removerImagem, abrirImagem } from "../config/gridfs.js";
-import PDFDocument from "pdfkit";
+import { gerarRelatorioPdf } from "../services/RelatorioPdf.js";
 
 // Confere os primeiros bytes do arquivo, pois o mimetype enviado pelo navegador pode ser falso.
 const ehPng = (b) =>
@@ -225,41 +225,26 @@ export async function exportarRelatorio(req, res) {
     const exame = await Exame.findOne({ _id: id, medicoId: req.session.user.id }).populate("pacienteId").lean()
     if (!exame?.relatorio?.parecer_final) return res.sendStatus(404);
 
-    const dados = formatarExame(exame);
+    // Depois do populate, pacienteId é o documento do paciente (ou null, se ele foi apagado)
+    const paciente = exame.pacienteId || {};
     const { relatorio } = exame;
 
-    const doc = new PDFDocument({ size: "A4", margin: 50 });
     res.set({
       "Content-Type": "application/pdf",
       // Attachment faz o navegador baixar o arquivo em vez de navegar até ele
       "Content-Disposition": `attachment;filename="relatorio-${id}.pdf"`,
     });
 
-    doc.pipe(res);
-    doc.fontSize(20).text("Relatório médico", { align: "center" });
-    doc.moveDown();
-    doc.fontSize(14).text("Paciente");
-    doc.fontSize(11)
-      .text(`Nome: ${dados.paciente}`)
-      .text(`CPF: ${dados.cpf}`)
-      .text(`Idade: ${dados.idade}`)
-      .text(`Sexo: ${dados.sexo}`);
-    doc.moveDown();
-
-    doc.fontSize(14).text("Exame");
-    doc.fontSize(11)
-      .text(`Tipo: ${dados.tipoExame}`)
-      .text(`Data do exame: ${dados.data}`);
-    doc.moveDown();
-
-    doc.fontSize(14).text("Relatório");
-    doc.fontSize(11)
-      .text(`Diagnóstico de pneumonia: ${relatorio.diagnostico_confirmado ? "Sim" : "Não"}`)
-      .text(`Data do relatório: ${formatarData(relatorio.data_relatorio)}`);
-    doc.moveDown();
-    doc.fontSize(14).text("Parecer final");
-    doc.fontSize(11).text(relatorio.parecer_final, { align: "justify" });
-    doc.end();
+    // Layout igual ao frame "Relatório médico — Parecer final" do Figma
+    gerarRelatorioPdf(res, {
+      paciente: paciente.nome_paciente,
+      nascimento: formatarData(paciente.dataNascimento_paciente),
+      cpf: formatarCpf(paciente.cpf_paciente),
+      dataExame: formatarData(exame.data_hora_exame),
+      dataRelatorio: formatarData(relatorio.data_relatorio),
+      parecer: relatorio.parecer_final,
+      diagnostico: relatorio.diagnostico_confirmado,
+    });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
