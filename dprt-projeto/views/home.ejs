@@ -1,0 +1,336 @@
+<%
+  // Dados ilustrativos da prévia da plataforma (fictícios)
+  const examesPrevia = [
+    { paciente: 'Paciente A. L.', data: '12/03/2026', concluido: true },
+    { paciente: 'Paciente B. C.', data: '11/03/2026', concluido: false },
+    { paciente: 'Paciente C. S.', data: '10/03/2026', concluido: true },
+  ];
+
+  const pilares = [
+    { icone: 'users-round-22', texto: 'Pacientes organizados' },
+    { icone: 'scan-line-22', texto: 'Radiografias conectadas' },
+    { icone: 'brain-circuit-22', texto: 'IA como apoio clínico' },
+    { icone: 'file-check-2-22', texto: 'Parecer do profissional' },
+  ];
+
+  const funcionalidades = [
+    {
+      icone: 'users-round',
+      titulo: 'Pacientes em contexto',
+      texto: 'Cadastre e atualize informações de identificação e contato. Encontre o paciente e consulte seus registros com facilidade.',
+      rodape: 'Cadastro e edição de pacientes',
+    },
+    {
+      icone: 'scan-line',
+      titulo: 'Exames bem organizados',
+      texto: 'Vincule a radiografia de tórax ao paciente, informe a data e acompanhe os exames na mesma interface.',
+      rodape: 'Com imagens de radiografias',
+    },
+    {
+      icone: 'file-text',
+      titulo: 'Relatórios que conectam',
+      texto: 'Consulte os resultados, registre os achados e reúna a conclusão e o parecer final do profissional no exame.',
+      rodape: 'Registro do parecer médico',
+    },
+  ];
+
+  const etapas = [
+    { numero: '01', icone: 'user-round-plus', titulo: 'Cadastre o paciente', texto: 'Reúna os dados necessários para identificar e acompanhar cada pessoa.' },
+    { numero: '02', icone: 'upload', titulo: 'Adicione o exame', texto: 'Selecione o paciente, informe a data e anexe a radiografia de tórax.' },
+    { numero: '03', icone: 'brain-circuit', titulo: 'Avalie com apoio da IA', texto: 'Considere a análise por deep learning junto à imagem e ao contexto clínico.' },
+    { numero: '04', icone: 'clipboard-check', titulo: 'Registre seu parecer', texto: 'Documente os achados e a conclusão médica para dar continuidade ao cuidado.' },
+  ];
+
+  const beneficios = [
+    { icone: 'folders', titulo: 'Tudo vinculado ao paciente', texto: 'Mantenha cadastros, imagens e relatórios conectados, em vez de consultar registros isolados.' },
+    { icone: 'list-checks', titulo: 'Acompanhamento mais claro', texto: 'Diferencie exames pendentes e concluídos e identifique o que precisa de atenção na rotina.' },
+    { icone: 'file-check-2', titulo: 'Continuidade no registro clínico', texto: 'Reúna a avaliação e o parecer final em um documento que pode ser exportado para PDF.' },
+  ];
+
+  const dadosRelatorio = [
+    { rotulo: 'Paciente', valor: 'Paciente A. L.' },
+    { rotulo: 'Exame vinculado', valor: 'RX de tórax • 12/03/2026' },
+    { rotulo: 'Data do relatório', valor: '13/03/2026' },
+  ];
+%>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <%- include('partials/head', { title: 'DPRT | Conheça a plataforma' }) %>
+  <%# Liga as animações só com JS ativo, antes da primeira pintura (evita o texto piscar completo) %>
+  <script>document.documentElement.classList.add('home-motion');</script>
+  <script src="/scripts/home.js" defer></script>
+</head>
+<body class="home-page">
+  <header class="home-nav">
+    <a class="home-nav__brand" href="/" aria-label="DPRT — página inicial">
+      <%- include('partials/home-logo') %>
+    </a>
+
+    <nav class="home-nav__menu" aria-label="Seções da página">
+      <a href="#o-projeto">O projeto</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#papel-do-medico">Papel do médico</a>
+    </nav>
+
+    <div class="home-actions">
+      <a class="home-btn home-btn--primary home-btn--nav-primary" href="/login">Acessar plataforma</a>
+      <a class="home-btn home-btn--outline home-btn--nav-outline" href="/cadastro">Criar conta</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Apresentação do DPRT -->
+    <section class="home-hero" id="o-projeto">
+      <div class="home-hero__promise">
+        <p class="home-eyebrow">Tecnologia a serviço do cuidado</p>
+        <h1 class="home-hero__title" data-typing>
+          <span class="home-hero__line" data-typing-group="1">Mais clareza para avaliar</span>
+          <em data-typing-group="2">Mais espaço</em>
+          <em data-typing-group="2">para cuidar</em>
+        </h1>
+        <p class="home-hero__text">O DPRT reúne pacientes, exames com radiografias de tórax e relatórios em um só lugar, com inteligência artificial como apoio à avaliação de pneumonia.</p>
+
+        <div class="home-actions">
+          <a class="home-btn home-btn--primary" href="/login">Acessar plataforma</a>
+          <a class="home-btn home-btn--outline" href="/cadastro">Criar conta</a>
+        </div>
+
+        <p class="home-hero__note">
+          Feito para hospitais e profissionais de saúde.<br>
+          A decisão clínica permanece com o médico.
+        </p>
+      </div>
+
+      <div class="home-hero__preview" data-reveal style="--reveal-delay: 150ms">
+        <div class="home-product">
+          <div class="home-product__nav">
+            <%- include('partials/home-logo') %>
+            <div class="home-product__areas">
+              <span class="home-product__area home-product__area--patients">Pacientes</span>
+              <span class="home-product__area">Exames</span>
+            </div>
+            <img src="/imgs/home/user-round.svg" alt="" width="20" height="20">
+          </div>
+
+          <div class="home-product__content">
+            <div class="home-product__heading">
+              <div class="home-product__intro">
+                <p class="home-product__title">Exames</p>
+                <p class="home-product__subtitle">Acompanhe os resultados de cada paciente.</p>
+              </div>
+              <span class="home-btn home-btn--primary home-btn--new-exam">+ Novo exame</span>
+            </div>
+
+            <div class="home-preview-table">
+              <div class="home-preview-table__summary">
+                <p class="home-preview-table__title">Exames recentes</p>
+                <p class="home-preview-table__subtitle">Imagens e relatórios vinculados ao paciente</p>
+              </div>
+
+              <div class="home-preview-table__columns">
+                <span class="home-preview-table__col--patient">Paciente</span>
+                <span class="home-preview-table__col--date">Data</span>
+                <span class="home-preview-table__col--status">Status</span>
+                <span class="home-preview-table__col--actions">Ações</span>
+              </div>
+
+              <% examesPrevia.forEach((exame) => { %>
+                <div class="home-preview-table__row">
+                  <div class="home-preview-table__col--patient home-preview-table__patient">
+                    <span class="home-preview-table__name"><%= exame.paciente %></span>
+                    <span class="home-preview-table__meta">RX de tórax</span>
+                  </div>
+                  <span class="home-preview-table__col--date home-preview-table__date"><%= exame.data %></span>
+                  <span class="home-preview-table__col--status">
+                    <span class="chip home-chip<%= exame.concluido ? '' : ' chip--warning' %>"><%= exame.concluido ? 'Concluído' : 'Pendente' %></span>
+                  </span>
+                  <span class="pill home-pill"><%= exame.concluido ? 'Visualizar relatório' : 'Cadastrar relatório' %></span>
+                </div>
+              <% }) %>
+
+              <p class="home-preview-table__caption">Prévia ilustrativa • Dados fictícios e identificação reduzida</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-connection">
+          <img src="/imgs/home/clipboard-check.svg" alt="" width="24" height="24">
+          <div class="home-connection__info">
+            <p class="home-connection__title">Da imagem ao parecer médico</p>
+            <p class="home-connection__text">Cada etapa conectada ao mesmo exame.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pilares do projeto -->
+    <section class="home-pillars" aria-label="Pilares do projeto">
+      <% pilares.forEach((pilar, i) => { %>
+        <div class="home-pillars__item" data-reveal style="--reveal-delay: <%= i * 90 %>ms">
+          <img src="/imgs/home/<%= pilar.icone %>.svg" alt="" width="22" height="22">
+          <span><%= pilar.texto %></span>
+        </div>
+      <% }) %>
+    </section>
+
+    <!-- Funcionalidades -->
+    <section class="home-section home-features" id="funcionalidades">
+      <p class="home-eyebrow" data-reveal>Um ambiente, todo o acompanhamento</p>
+      <h2 class="home-section__title home-features__title" data-reveal style="--reveal-delay: 80ms">
+        Informação organizada<br>
+        Cuidado com continuidade
+      </h2>
+
+      <div class="home-features__list">
+        <% funcionalidades.forEach((item, i) => { %>
+          <article class="home-feature" data-reveal style="--reveal-delay: <%= i * 120 %>ms">
+            <span class="home-symbol home-symbol--lg">
+              <img src="/imgs/home/<%= item.icone %>.svg" alt="" width="24" height="24">
+            </span>
+            <div class="home-feature__content">
+              <h3 class="home-feature__title"><%= item.titulo %></h3>
+              <p class="home-feature__text"><%= item.texto %></p>
+            </div>
+            <p class="home-feature__footer"><%= item.rodape %></p>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Fluxo clínico -->
+    <section class="home-section home-flow" id="como-funciona">
+      <p class="home-eyebrow" data-reveal>Como funciona</p>
+      <div class="home-flow__intro" data-reveal style="--reveal-delay: 80ms">
+        <h2 class="home-section__title">Do cadastro ao parecer, um fluxo claro</h2>
+        <p class="home-flow__subtitle">Quatro etapas conectam a organização dos dados à avaliação do profissional.</p>
+      </div>
+
+      <ol class="home-flow__steps">
+        <% etapas.forEach((etapa, i) => { %>
+          <li class="home-step" data-reveal style="--reveal-delay: <%= i * 120 %>ms">
+            <div class="home-step__marker">
+              <span class="home-step__number"><%= etapa.numero %></span>
+              <img src="/imgs/home/<%= etapa.icone %>.svg" alt="" width="24" height="24">
+            </div>
+            <div class="home-step__content">
+              <h3 class="home-step__title"><%= etapa.titulo %></h3>
+              <p class="home-step__text"><%= etapa.texto %></p>
+            </div>
+          </li>
+        <% }) %>
+      </ol>
+    </section>
+
+    <!-- Benefícios práticos -->
+    <section class="home-section home-benefits">
+      <div class="home-benefits__list">
+        <p class="home-eyebrow" data-reveal>Na prática</p>
+        <h2 class="home-section__title" data-reveal style="--reveal-delay: 80ms">Mais contexto para o profissional e para todo o hospital</h2>
+
+        <% beneficios.forEach((beneficio, i) => { %>
+          <div class="home-benefit" data-reveal style="--reveal-delay: <%= 120 + i * 100 %>ms">
+            <span class="home-symbol">
+              <img src="/imgs/home/<%= beneficio.icone %>.svg" alt="" width="20" height="20">
+            </span>
+            <div class="home-benefit__content">
+              <h3 class="home-benefit__title"><%= beneficio.titulo %></h3>
+              <p class="home-benefit__text"><%= beneficio.texto %></p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <div class="home-report" data-reveal style="--reveal-delay: 150ms">
+        <div class="home-report__top">
+          <p class="home-report__label">DO EXAME AO DOCUMENTO</p>
+          <img src="/imgs/home/file-text-20.svg" alt="" width="20" height="20">
+        </div>
+
+        <div class="home-report__document">
+          <div class="home-report__header">
+            <div class="home-report__heading">
+              <p class="home-report__title">Relatório médico</p>
+              <p class="home-report__subtitle">Parecer final da consulta</p>
+            </div>
+            <%- include('partials/home-logo') %>
+          </div>
+
+          <dl class="home-report__data">
+            <% dadosRelatorio.forEach((dado) => { %>
+              <div class="home-report__row">
+                <dt><%= dado.rotulo %></dt>
+                <dd><%= dado.valor %></dd>
+              </div>
+            <% }) %>
+          </dl>
+
+          <div class="home-report__opinion">
+            <p class="home-report__opinion-title">Parecer final</p>
+            <p class="home-report__opinion-text">Achados da imagem, contexto clínico e conclusão registrados pelo profissional responsável.</p>
+            <p class="home-report__opinion-note">Exemplo de estrutura • Sem dados clínicos reais</p>
+          </div>
+        </div>
+
+        <div class="home-report__bottom">
+          <p class="home-report__status">Parecer documentado</p>
+          <span class="pill home-pill">Exportar para PDF</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Papel do profissional -->
+    <section class="home-section home-role" id="papel-do-medico">
+      <div class="home-role__image" data-reveal>
+        <img src="/imgs/home/profissional-avaliando-imagens.jpg" alt="Profissional de saúde avaliando radiografias" width="510" height="490">
+      </div>
+
+      <div class="home-role__content" data-reveal style="--reveal-delay: 150ms">
+        <p class="home-eyebrow">Inteligência artificial, critério humano.</p>
+        <h2 class="home-role__title">
+          A tecnologia apoia
+          <em>O médico decide</em>
+        </h2>
+        <p class="home-role__text">O DPRT utiliza um modelo de IA de deep learning, que cria uma Rede Neural Convolucional para apoiar a avaliação de radiografias de tórax na investigação de pneumonia. Os resultados precisam ser interpretados pelo profissional, junto a outras informações médicas do paciente.</p>
+
+        <div class="home-role__notice">
+          <img src="/imgs/home/info.svg" alt="" width="22" height="22">
+          <p>A IA não substitui a avaliação médica e não garante um diagnóstico. A conclusão e o parecer final são responsabilidade do profissional.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chamada final -->
+    <section class="home-cta">
+      <p class="home-eyebrow home-cta__eyebrow" data-reveal>Conheça o DPRT</p>
+      <h2 class="home-cta__title" data-reveal style="--reveal-delay: 80ms">
+        Organize o fluxo
+        <em>Mantenha o cuidado.</em>
+      </h2>
+      <p class="home-cta__text" data-reveal style="--reveal-delay: 160ms">
+        Acesse sua conta para acompanhar pacientes e exames.<br>
+        É seu primeiro acesso? Crie seu perfil profissional.
+      </p>
+      <div class="home-actions" data-reveal style="--reveal-delay: 240ms">
+        <a class="home-btn home-btn--primary" href="/login">Acessar plataforma</a>
+        <a class="home-btn home-btn--outline" href="/cadastro">Criar conta</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="home-footer">
+    <div class="home-footer__project">
+      <%- include('partials/home-logo') %>
+      <p>Projeto Integrador - Fatec Registro</p>
+    </div>
+
+    <div class="home-footer__credits">
+      <span>Desenvolvido por</span>
+      <a href="https://deep-vision-chi.vercel.app/">
+        <img src="/imgs/home/desenvolvido-por.svg" alt="DeepVision" width="95" height="23.5285">
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
