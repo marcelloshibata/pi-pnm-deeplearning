@@ -6,8 +6,9 @@ import uploadFoto from "../middleware/UploadFoto.js";
 
 const route = Router();
 
-route.get("/", Auth, (req, res) => {
-    res.redirect("/pacientes");
+// Página inicial pública de apresentação da plataforma
+route.get("/", (req, res) => {
+    res.render("home");
 });
 
 route.get("/login", (req, res) => {
