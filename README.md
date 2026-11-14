@@ -107,6 +107,8 @@ Para criar um banco no MongoDB Atlas para executar o projeto, você deve acessar
 Se registrar e logar nessa conta, podendo ir com o plano free mesmo. Assim você receberá um cluster de graça para conectar a aplicação e começar a armazenar os dados no banco.
 Na tela de visualização do Cluster, é só clicar em connect e copiar o link de conexão do banco.
 
+![Demonstração de como pegar o link do cluster](mongo_demo.gif)
+
 Crie então um arquivo `.env` na pasta `dprt-projeto`:
 
 ```env
