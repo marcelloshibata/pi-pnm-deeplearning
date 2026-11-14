@@ -92,20 +92,31 @@ Você pode acessar o projeto que já está em funcionamento pelo link: **https:/
 
 ### Como executar localmente
 
-Caso queira executar localmente o projeto, é importante ter os pré-requisitos: **Node.js** e uma instância do **MongoDB** (local ou Atlas).
+Primeiro é importante instalar as dependências:
 
 ```bash
 cd dprt-projeto
 npm install
 ```
 
-Crie um arquivo `.env` na pasta `dprt-projeto`:
+#### Configurando o banco de dados
+
+Caso queira executar localmente o projeto, é importante ter os pré-requisitos: **Node.js** e uma instância do **MongoDB** (local ou Atlas).
+
+Para criar um banco no MongoDB Atlas para executar o projeto, você deve acessar o link: https://www.mongodb.com/pt-br/products/platform/atlas-database
+Se registrar e logar nessa conta, podendo ir com o plano free mesmo. Assim você receberá um cluster de graça para conectar a aplicação e começar a armazenar os dados no banco.
+Na tela de visualização do Cluster, é só clicar em connect e copiar o link de conexão do banco.
+
+Crie então um arquivo `.env` na pasta `dprt-projeto`:
 
 ```env
-MONGO_URI=mongodb://localhost:27017/dprt
-SESSION_SECRET=uma-chave-secreta
-PORT=8080
+MONGO_URI=mongodb+srv://usuario_db_user:<db_password>@cluster0.h2wxam3.mongodb.net/
+SESSION_SECRET=uma-chave-secreta 
+PORT=8080 
 ```
+Em MONGO_URI deve ser passado depois do sinal de igual o link do seu cluster com a senha em <db_password>.
+Em SESSION_SECRET deve ser colocada uma senha para a sessão.
+Em PORT, a porta em que a aplicação irá rodar.
 
 Inicie a aplicação:
 
